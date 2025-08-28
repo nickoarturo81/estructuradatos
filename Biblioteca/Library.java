@@ -1,164 +1,132 @@
 package Biblioteca;
 
+import java.util.ArrayList;
+
 public class Library {
-    private Book[] libros;
-    private int contarLibro;
+    private ArrayList<Book> libros;
+    private int capacidadMaxima;
     
+    //Constructor que inicializa la biblioteca con una capacidad determinada
     public Library(int capacidad) {
-        this.libros = new Book[capacidad];
-        this.contarLibro = 0;
+        this.libros = new ArrayList<>();
+        this.capacidadMaxima = capacidad;
         System.out.println("Biblioteca creada con capacidad para " + capacidad);
     }
 
-    public Book buscarTitulo(String titulo){
+    // Metodo para buscar un libro por su titulo
+    public Book buscarTitulo(String titulo) {
         System.out.println("Buscando por: " + titulo);
 
-        for (int i = 0; i < contarLibro; i++) {
-            if (libros[i].getTitulo().equalsIgnoreCase(titulo)) {
-                System.out.println("Libro encontrado: " + libros[i]);
-                return libros[i];
-            }
+        for (int i = 0; i < libros.size(); i++) {
+            if (libros.get(i).getTitulo().equalsIgnoreCase(titulo)) {
+            System.out.println("Libro encontrado: " + libros.get(i));
+            return libros.get(i);
+         }
         }
         System.out.println("Libro no encontrado");
         return null;
     }
 
-    public boolean añadirLibro(Book libro) {
-    if (contarLibro >= libros.length) {
-        System.out.println("Biblioteca llena, no se puede añadir más libros.");
-        return false;
-    }
+    //Metodo para añadir un libro a la biblioteca
+    public void anadirLibro(Book libro) {
+        if (libros.size() < capacidadMaxima) {
+            libros.add(libro);
+            System.out.println("Libro añadido exitosamente: ");
+
+        } else {
+            System.out.println("No se puede añadir más libros, capacidad máxima alcanzada.");
+        }
 
         if (libro == null) {
         System.out.println("No se puede añadir un libro nulo.");
+        }
+    }
+
+    // Metodo para eliminar un libro de la biblioteca
+    public boolean eliminarLibro(String isbn) {
+        for (int i = 0; i < libros.size(); i++) {
+            if (libros.get(i).getIsbn().equals(isbn)) {
+                String tituloEliminado = libros.get(i).getTitulo();
+                libros.remove(i); // elimina el libro en esa posición
+                System.out.println("Libro eliminado: " + tituloEliminado + " (Total libros: " + libros.size() + ")");
+                return true;
+            }
+        }
+        System.out.println("Libro con ISBN:  " + isbn + " NO encontrado.");
         return false;
     }
 
-        for (int i = 0; i < contarLibro; i++) {
-        if (libros[i].getIsbn().equals(libro.getIsbn())) {
-            System.out.println("El libro con ISBN " + libro.getIsbn() + " ya existe.");
-            return false;
-            }
-        }
-
-        this.libros[contarLibro] = libro;
-        contarLibro++;
-        System.out.println("Libro añadido: " + libro.getTitulo() + " (Total libros: " + contarLibro + ")");
-        return true;
-    }
-
-    public boolean eliminarLibro(String isbn) {
-        int position = -1;
-        for (int i =0; i < contarLibro; i++) {
-            if (libros[i].getIsbn().equals(isbn)) {
-                position = i;
-                break;
-            }
-        }
-
-        if (position == -1) {
-            System.out.println("Libro con ISBN " + isbn + " no encontrado.");
-            return false;
-        }
-
-        String tituloEliminadoString = libros[position].getTitulo();
-
-        for (int i = position; i < contarLibro - 1; i++) {
-            libros[i] = libros[i + 1];
-        }
-
-        contarLibro--;
-        libros[contarLibro] = null;
-
-        System.out.println("Libro eliminado: " + tituloEliminadoString + " (Total libros: " + contarLibro + ")");
-        return true;
-
-
-    }
-
+    // Metodo para mostrar todos los libros de la biblioteca
     public void mostrarTodosLibros() {
-        System.out.println("\n== Biblioteca (" + contarLibro + "/" + libros.length + " libros) ==");
+    System.out.println("\n== Biblioteca (" + libros.size() + " libros) ==");
 
-        if (contarLibro == 0) {
+        if (libros.isEmpty()) {
             System.out.println("No hay libros en la biblioteca.");
-            return;
         } else {
-            for (int i = 0; i < contarLibro; i++) {
-                System.out.println((i + 1 ) + ". " + libros[i]);
+            for (int i = 0; i < libros.size(); i++) {
+                System.out.println((i + 1) + ". " + libros.get(i));
             }
         }
         System.out.println("====================================\n");
     }
 
+    // Metodo para mostrar solo los libros disponibles
     public void mostrarLibrosDisponibles() {
-        System.out.println("\n== Libros Disponibles ==");
-        int contadorDisponibles = 0;
+    System.out.println("\n== Libros Disponibles ==");
+    int contadorDisponibles = 0;
 
-        for (int i = 0; i < contarLibro; i++) {
-            if (libros[i].isDisponible()) {
-                System.out.println("- " + libros[i]);
-                contadorDisponibles++;
+        for (int i = 0; i < libros.size(); i++) {   // usamos libros.size() en vez de contarLibro
+        if (libros.get(i).isDisponible()) {     // accedemos con get(i)
+            System.out.println("- " + libros.get(i));
+            contadorDisponibles++;
             }
         }
 
         if (contadorDisponibles == 0) {
             System.out.println("No hay libros disponibles en este momento.");
-            return;
         } else {
             System.out.println("Total de libros disponibles: " + contadorDisponibles);
         }
+
         System.out.println("========================\n");
-
-        
     }
 
+    // Metodo para prestar un libro por su ISBN
     public boolean prestarLibro(String isbn) {
-        for (int i = 0; i < contarLibro; i++) {
-            if (libros[i].getIsbn().equals(isbn)) {
-                if (libros[i].isDisponible()) {
-                    libros[i].setDisponible(false);
-                    System.out.println("Has prestado el libro: " + libros[i].getTitulo());
+        for (int i = 0; i < libros.size(); i++) {   // recorremos con size()
+            if (libros.get(i).getIsbn().equals(isbn)) {   // accedemos con get(i)
+            
+                if (libros.get(i).isDisponible()) {
+                    libros.get(i).setDisponible(false);
+                    System.out.println("Has prestado el libro: " + libros.get(i).getTitulo());
                     return true;
+                } else {
+                    System.out.println("El libro ya está prestado: " + libros.get(i).getTitulo());
+                    return false;
                 }
-                libros[i].setDisponible(false);
-                System.out.println("Libro prestado: " + libros[i].getTitulo());
-                return true;
             }
         }
         System.out.println("Libro con ISBN " + isbn + " no encontrado.");
         return false;
     }
 
-    public boolean regresarLibro (String isbn){
-        for (int i = 0; i < contarLibro; i++) {
-            if (libros[i].getIsbn().equals(isbn)) {
-                if (libros[i].isDisponible()) {
-                    System.out.println(" El libro no fue prestado");
-                    return true;
+    // Metodo para regresar un libro por su ISBN
+    public boolean regresarLibro(String isbn) {
+        for (int i = 0; i < libros.size(); i++) {  // recorremos con size()
+            if (libros.get(i).getIsbn().equals(isbn)) {
+            
+                if (libros.get(i).isDisponible()) {
+                    System.out.println("El libro '" + libros.get(i).getTitulo() + "' no fue prestado.");
+                    return false;  // aquí debería ser false, porque no se devolvió nada
                 }
-                libros[i].setDisponible(true);
-                System.out.println("Has regresado el libro: " + libros[i].getTitulo());
+
+                libros.get(i).setDisponible(true);
+                System.out.println("Has regresado el libro: " + libros.get(i).getTitulo());
                 return true;
             }
         }
 
         System.out.println("Libro con ISBN " + isbn + " no encontrado.");
         return false;
-    }
-
-    public boolean isVacio() {
-        return contarLibro == 0;
-    }
-
-    public boolean isLleno() {
-        return contarLibro >= libros.length;
-    }
-
-    public int getContarLibro() {
-        return contarLibro;
-    }  
-
-    public int getCapacidad() {
-        return libros.length;
     }
 }

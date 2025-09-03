@@ -46,17 +46,15 @@ public class Library {
     }
 
     // Metodo para eliminar un libro de la biblioteca
-    public boolean eliminarLibro(String isbn) {
+    public String eliminarLibro(String isbn) {
         for (int i = 0; i < libros.size(); i++) {
-            Book libro = libros.get(i);
-            if (libro.getIsbn().equals(isbn)) {
-                libros.remove(i); // elimina el libro en esa posición
-                //System.out.println("Libro eliminado: " + tituloEliminado + " (Total libros: " + libros.size() + ")");
-                return true;
+            if (libros.get(i).getIsbn().equals(isbn)) {
+                String tituloEliminado = libros.get(i).getTitulo();
+                libros.remove(i);
+                return tituloEliminado;
             }
         }
-        //System.out.println("Libro con ISBN:  " + isbn + " NO encontrado.");
-        return false;
+        return null;
     }
 
     // Metodo para mostrar todos los libros de la biblioteca
@@ -77,26 +75,23 @@ public class Library {
     }
 
     // Metodo para prestar un libro por su ISBN
-    public boolean prestarLibro(String isbn) {
-        for (int i = 0; i < libros.size(); i++) {  
-            Book libro = libros.get(i); 
-                if (libro.getIsbn().equals(isbn)) {
-                    if (libro.isDisponible()) {
-                        libro.setDisponible(false);
-                        //System.out.println("El libro '" + libro.getTitulo() + "' no fue prestado.");
-                        return true;
-                    }
-                    //System.out.println("Has prestado el libro: " + libros.get(i).getTitulo());
-                    return false;
+    public String prestarLibro(String isbn) {
+        for (Book libro : libros) {
+            if (libro.getIsbn().equals(isbn)) {
+                if (libro.isDisponible()) {
+                    libro.setDisponible(false);
+                    return libro.getTitulo();
+                } else {
+                return "";
                 }
+            }
         }
-        //System.out.println("Libro con ISBN " + isbn + " no encontrado.");
-        return false;
+        return null; // no encontrado
     }
 
     // Metodo para regresar un libro por su ISBN
     public boolean regresarLibro(String isbn) {
-        for (int i = 0; i < libros.size(); i++) {  // recorremos con size()
+        for (int i = 0; i < libros.size(); i++) {
             if (libros.get(i).getIsbn().equals(isbn)) {
             
                 if (libros.get(i).isDisponible()) {

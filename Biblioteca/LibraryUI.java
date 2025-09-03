@@ -95,9 +95,13 @@ public class LibraryUI {
         Book libro = new Book(titulo, autor, isbn, true);
 
         if (biblioteca.anadirLibro(libro)) {
+            System.out.println("=======================");
             System.out.println("Libro añadido: " + libro);
+            System.out.println("=======================");
         } else {
+            System.out.println("========================================================");
             System.out.println("No se puede añadir el libro. Capacidad máxima alcanzada.");
+            System.out.println("========================================================");
         }
     }
 
@@ -110,9 +114,13 @@ public class LibraryUI {
         String tituloEliminado = biblioteca.eliminarLibro(isbn);
 
         if (tituloEliminado != null) {
+            System.out.println("================================================================================================");
             System.out.println("Libro eliminado: " + tituloEliminado + " Total libros: " + biblioteca.getTodosLibros().size() + ")");
+            System.out.println("================================================================================================");
         } else {
+            System.out.println("========================================");
             System.out.println("Libro con ISBN " + isbn + " no encontrado.");
+            System.out.println("========================================");
         }
     }
 
@@ -122,7 +130,9 @@ public class LibraryUI {
 
         //Validar si hay libros registrados
         if (biblioteca.getTodosLibros().isEmpty()) {
+            System.out.println("=============================================================");
             System.out.println("No hay ningún libro registrado en la biblioteca para prestar.");
+            System.out.println("=============================================================");
             return;
         }
 
@@ -132,28 +142,69 @@ public class LibraryUI {
         String resultado = biblioteca.prestarLibro(isbn);
 
         if (resultado == null) {
+            System.out.println("============================================");
             System.out.println("Libro con ISBN " + isbn + " no fue encontrado.");
+            System.out.println("============================================");
         } else if (resultado.equals("")) {
+            System.out.println("===================================================================");
             System.out.println("El libro con ISBN " + isbn + " ya está prestado y no está disponible.");
+            System.out.println("===================================================================");
         } else {
+            System.out.println("============================");
             System.out.println("Libro prestado: " + resultado);
+            System.out.println("============================");
         }
     }
 
-    // 4: Metodo para regresar un libro a partir del metodo regresarLibro de la clase Library
+    // 4: Método para regresar un libro a partir del método regresarLibro de la clase Library
     public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
-        leer.nextLine(); // Limpiar el buffer
+        leer.nextLine(); // Limpiar buffer
+
+        // Validar si todos los libros están disponibles
+        if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
+        System.out.println("No hay libros prestados para regresar.");
+        return;
+        }
+
         System.out.print("Ingrese el ISBN del libro a regresar: ");
         String isbn = leer.nextLine();
-        biblioteca.regresarLibro(isbn);
-        
+
+        // Buscar el libro en todos los libros
+        Book libroEncontrado = null;
+        for (int i = 0; i < biblioteca.getTodosLibros().size(); i++) {
+            Book libro = biblioteca.getTodosLibros().get(i);
+            if (libro.getIsbn().equals(isbn)) {
+                libroEncontrado = libro;
+                break;
+            }
+        }
+
+        // CEn caso de que el libro no exista
+        if (libroEncontrado == null) {
+            System.out.println("=================================================");
+            System.out.println("El libro no está en el sistema o no se encuentra.");
+            System.out.println("=================================================");
+            return;
+        }
+
+        // Si el libro existe, verificar si está prestado y regresarlo
+        if (!libroEncontrado.isDisponible()) {
+            libroEncontrado.setDisponible(true);
+            System.out.println("Libro regresado: " + libroEncontrado.getTitulo());
+        } else {
+            System.out.println("=============================");
+            System.out.println("Ese libro no estaba prestado.");
+            System.out.println("=============================");
+        }
     }
 
     // 5. Método para mostrar todos los libros a partir del metodo getTodosLibros de la clase Library
     public static void mostrarTodosLibros(Library biblioteca) {
         System.out.println("===== Todos los Libros ====");
         if (biblioteca.getTodosLibros().isEmpty()) {
+            System.out.println("===============================");
             System.out.println("No hay libros en la biblioteca.");
+            System.out.println("===============================");
         } else {
             for (int i = 0; i < biblioteca.getTodosLibros().size(); i++) {
                 Book libro = biblioteca.getTodosLibros().get(i);

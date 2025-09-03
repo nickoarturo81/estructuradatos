@@ -10,20 +10,16 @@ public class Library {
     public Library(int capacidad) {
         this.libros = new ArrayList<>();
         this.capacidadMaxima = capacidad;
-        //System.out.println("Biblioteca creada con capacidad para " + capacidad);
     }
 
     // Metodo para buscar un libro por su titulo
     public Book buscarTitulo(String titulo) {
-        //System.out.println("Buscando por: " + titulo);
         for (int i = 0; i < libros.size(); i++) {
             Book libro = libros.get(i);
             if (libro.getTitulo().equalsIgnoreCase(titulo)) {
-            //System.out.println("Libro encontrado: " + libros.get(i));
             return libro;
          }
         }
-        //System.out.println("Libro no encontrado");
         return null;
     }
 
@@ -33,16 +29,8 @@ public class Library {
         if (libros.size() < capacidadMaxima) {                          // Si el tamaño de la cantidad de los libros es menor a la capacidad máxima
             libros.add(libro);                                          // Se añade un libro
             return true;                                                // Retorna true si se añadió correctamente
-            //System.out.println("Libro añadido exitosamente: ");
         } 
         return false;                                                   // De lo contrario, retorna false
-        /*else {
-            System.out.println("No se puede añadir más libros, capacidad máxima alcanzada.");
-        }
-
-        if (libro == null) {
-        System.out.println("No se puede añadir un libro nulo.");
-        */
     }
 
     // Metodo para eliminar un libro de la biblioteca
@@ -86,7 +74,7 @@ public class Library {
                 }
             }
         }
-        return null; // no encontrado
+        return null;
     }
 
     // Metodo para regresar un libro por su ISBN
@@ -95,17 +83,12 @@ public class Library {
             if (libros.get(i).getIsbn().equals(isbn)) {
             
                 if (libros.get(i).isDisponible()) {
-                    //System.out.println("El libro '" + libros.get(i).getTitulo() + "' no fue prestado.");
-                    return false;  // aquí debería ser false, porque no se devolvió nada
+                    return false;
                 }
-
                 libros.get(i).setDisponible(true);
-                //System.out.println("Has regresado el libro: " + libros.get(i).getTitulo());
                 return true;
             }
         }
-
-        //System.out.println("Libro con ISBN " + isbn + " no encontrado.");
         return false;
     }
 }

@@ -25,7 +25,9 @@ public class LibraryUI {
 
     //Método para mostrar el menu principal.
     public static int mostrarMenuPrincipal(Scanner leer){
-        System.out.println("----- Menú Principal -----");
+        System.out.println("========================================");
+        System.out.println("            Menú Principal              ");
+        System.out.println("========================================");
         System.out.println("1. Gestion de Libros");
         System.out.println("2. Salir");
         System.out.print("Seleccione una opción: ");
@@ -36,7 +38,9 @@ public class LibraryUI {
     public static void mostrarMenuGestionLibros(Library biblioteca, Scanner leer){
         int opc;
         do{
-            System.out.println("----- Menú de Gestión de Libros -----");
+            System.out.println("========================================");
+            System.out.println("        Menú de Gestión de Libros       ");
+            System.out.println("========================================");
             System.out.println("1. Añadir Libro");
             System.out.println("2. Eliminar Libro");
             System.out.println("3. Prestar Libro");
@@ -85,10 +89,13 @@ public class LibraryUI {
     // 1: Metodo para añadir un libro a partir del metodo anadirLibro de la clase Library
     public static void anadirLibroMenu(Library biblioteca, Scanner leer) {
         leer.nextLine(); // Limpiar el buffer
+        System.out.println();
         System.out.print("Ingrese el título del libro: ");
         String titulo = leer.nextLine();
+        System.out.println();
         System.out.print("Ingrese el autor del libro: ");
         String autor = leer.nextLine();
+        System.out.println();
         System.out.print("Ingrese el ISBN del libro: ");
         String isbn = leer.nextLine();
 
@@ -108,6 +115,7 @@ public class LibraryUI {
     // 2: Método para eliminar un libro a partir del método eliminarLibro de la clase Library
     public static void eliminarLibroMenu(Library biblioteca, Scanner leer) {
         leer.nextLine(); // Limpiar el buffer
+        System.out.println();
         System.out.print("Ingrese el ISBN del libro a eliminar: ");
         String isbn = leer.nextLine();
 
@@ -135,7 +143,7 @@ public class LibraryUI {
             System.out.println("=============================================================");
             return;
         }
-
+        System.out.println();
         System.out.print("Ingrese el ISBN del libro a prestar: ");
         String isbn = leer.nextLine();
 
@@ -165,7 +173,7 @@ public class LibraryUI {
         System.out.println("No hay libros prestados para regresar.");
         return;
         }
-
+        System.out.println();
         System.out.print("Ingrese el ISBN del libro a regresar: ");
         String isbn = leer.nextLine();
 
@@ -190,7 +198,9 @@ public class LibraryUI {
         // Si el libro existe, verificar si está prestado y regresarlo
         if (!libroEncontrado.isDisponible()) {
             libroEncontrado.setDisponible(true);
+            System.out.println("=================================================");
             System.out.println("Libro regresado: " + libroEncontrado.getTitulo());
+            System.out.println("=================================================");
         } else {
             System.out.println("=============================");
             System.out.println("Ese libro no estaba prestado.");
@@ -218,7 +228,9 @@ public class LibraryUI {
     public static void mostrarLibrosDisponibles(Library biblioteca) {
         System.out.println("===== Libros Disponibles ====");
         if (biblioteca.getLibrosDisponibles().isEmpty()) {
+            System.out.println("===========================================");
             System.out.println("No hay libros disponibles en la biblioteca.");
+            System.out.println("===========================================");
         } else {
             for (int i = 0; i < biblioteca.getLibrosDisponibles().size(); i++) {
                 Book libro = biblioteca.getLibrosDisponibles().get(i);
@@ -235,10 +247,14 @@ public class LibraryUI {
         String titulo = leer.nextLine();
         Book libro = biblioteca.buscarTitulo(titulo);
 
-        if (libro != null) {                                                                        // <-- Si el libro es diferente a nulo, es decir, que hay datos
-            System.out.println("Libro encontrado: " + libro);                                       
+        if (libro != null) {
+            System.out.println("=========================");                                      // <-- Si el libro es diferente a nulo, es decir, que hay datos
+            System.out.println("Libro encontrado: " + libro);
+            System.out.println("=========================");                                      
         } else {
-            System.out.println("Libro con título '" + titulo + "' no encontrado.");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
+            System.out.println("==============================================");
+            System.out.println("Libro con título '" + titulo + "' no encontrado.");
+            System.out.println("==============================================");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
         }
     }
 }

@@ -6,37 +6,37 @@ public class LibraryUI {
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
         Library biblioteca = new Library(50);
-        int opc;
+        String opc;
         do {
             opc = mostrarMenuPrincipal(leer);
             switch (opc) {
-                case 1:
+                case "1":
                     mostrarMenuGestionLibros(biblioteca, leer);
                     break;
-                case 2:
+                case "2":
                     System.out.println(" Saliendo del programa...");
                     break;
                 default:
                     System.out.println(" Opción no válida. Intente de nuevo.");
             }
-        } while (opc != 2);
+        } while (opc != "2");
         leer.close();                   // <-- Cerrar el scanner para evitar fugas de memoria
     }
 
     //Método para mostrar el menu principal.
-    public static int mostrarMenuPrincipal(Scanner leer){
+    public static String mostrarMenuPrincipal(Scanner leer){
         System.out.println("========================================");
         System.out.println("            Menú Principal              ");
         System.out.println("========================================");
         System.out.println("1. Gestion de Libros");
         System.out.println("2. Salir");
         System.out.print("Seleccione una opción: ");
-        return leer.nextInt();
+        return leer.next();
     }
 
     //Metodo para mostrar el menu de gestion de libros
     public static void mostrarMenuGestionLibros(Library biblioteca, Scanner leer){
-        int opc;
+        String opc;
         do{
             System.out.println("========================================");
             System.out.println("        Menú de Gestión de Libros       ");
@@ -50,37 +50,37 @@ public class LibraryUI {
             System.out.println("7. Buscar Libro por Título");
             System.out.println("8. Volver al Menú Principal");
             System.out.print("Seleccione una opción: ");
-            opc = leer.nextInt();
+            opc = leer.next();
             System.out.println("========================================");
             switch (opc) {
-                case 1:
+                case "1":
                     anadirLibroMenu(biblioteca, leer);
                     break;
-                case 2:
+                case "2":
                     eliminarLibroMenu(biblioteca, leer);
                     break;
-                case 3:
+                case "3":
                     prestarLibroMenu(biblioteca, leer);
                     break;
-                case 4:
+                case "4":
                     regresarLibroMenu(biblioteca, leer);
                     break;
-                case 5:
+                case "5":
                     mostrarTodosLibros(biblioteca);
                     break;
-                case 6:
+                case "6":
                     mostrarLibrosDisponibles(biblioteca);
                     break;
-                case 7:
+                case "7":
                     buscarLibroMenu(biblioteca, leer);
                     break;
-                case 8:
+                case "8":
                     System.out.println("Volviendo al Menú Principal...");
                 break;
                 default:
                 System.out.println("Opción no válida. Intente de nuevo.");
             }
-        } while (opc != 8); {
+        } while (opc != "8"); {
             
         }
 

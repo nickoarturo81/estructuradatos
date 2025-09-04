@@ -58,5 +58,5 @@ public class Book {
         return String.format(
                 "Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s]", titulo, autor, isbn, disponible ? "Sí" : "No");
     }
-    //Permitira mostrar la informacion del libro de forma legible
+    //Permitira mostrar la informacion del libro de forma legible en metodos como mostrarTodosLibros o mostrarLibrosDisponibles
 }

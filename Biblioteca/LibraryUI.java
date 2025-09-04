@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class LibraryUI {
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
-        Library biblioteca = new Library(100);
+        Library biblioteca = new Library(50);
         int opc;
         do {
             opc = mostrarMenuPrincipal(leer);
@@ -51,7 +51,7 @@ public class LibraryUI {
             System.out.println("8. Volver al Menú Principal");
             System.out.print("Seleccione una opción: ");
             opc = leer.nextInt();
-
+            System.out.println("========================================");
             switch (opc) {
                 case 1:
                     anadirLibroMenu(biblioteca, leer);
@@ -102,9 +102,9 @@ public class LibraryUI {
         Book libro = new Book(titulo, autor, isbn, true);
 
         if (biblioteca.anadirLibro(libro)) {
-            System.out.println("=======================");
+            System.out.println("=====================================================================");
             System.out.println("Libro añadido: " + libro);
-            System.out.println("=======================");
+            System.out.println("=====================================================================");
         } else {
             System.out.println("========================================================");
             System.out.println("No se puede añadir el libro. Capacidad máxima alcanzada.");
@@ -143,6 +143,7 @@ public class LibraryUI {
             System.out.println("=============================================================");
             return;
         }
+        System.out.println();
         System.out.println();
         System.out.print("Ingrese el ISBN del libro a prestar: ");
         String isbn = leer.nextLine();
@@ -210,7 +211,9 @@ public class LibraryUI {
 
     // 5. Método para mostrar todos los libros a partir del metodo getTodosLibros de la clase Library
     public static void mostrarTodosLibros(Library biblioteca) {
-        System.out.println("===== Todos los Libros ====");
+        System.out.println("================================");
+        System.out.println("        Todos los Libros        ");
+        System.out.println("================================");
         if (biblioteca.getTodosLibros().isEmpty()) {
             System.out.println("===============================");
             System.out.println("No hay libros en la biblioteca.");
@@ -226,7 +229,9 @@ public class LibraryUI {
 
     // 6. Método para mostrar solo los libros disponibles a partir del metodo getLibrosDisponibles de la clase Library
     public static void mostrarLibrosDisponibles(Library biblioteca) {
-        System.out.println("===== Libros Disponibles ====");
+        System.out.println("================================");
+        System.out.println("        Libros Disponibles      ");
+        System.out.println("================================");
         if (biblioteca.getLibrosDisponibles().isEmpty()) {
             System.out.println("===========================================");
             System.out.println("No hay libros disponibles en la biblioteca.");
@@ -248,9 +253,9 @@ public class LibraryUI {
         Book libro = biblioteca.buscarTitulo(titulo);
 
         if (libro != null) {
-            System.out.println("=========================");                                      // <-- Si el libro es diferente a nulo, es decir, que hay datos
+            System.out.println("===========================================================================");                             // <-- Si el libro es diferente a nulo, es decir, que hay datos
             System.out.println("Libro encontrado: " + libro);
-            System.out.println("=========================");                                      
+            System.out.println("===========================================================================");
         } else {
             System.out.println("==============================================");
             System.out.println("Libro con título '" + titulo + "' no encontrado.");

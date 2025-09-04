@@ -103,7 +103,7 @@ public class LibraryUI {
 
         if (biblioteca.anadirLibro(libro)) {
             System.out.println("=====================================================================");
-            System.out.println("Libro añadido: " + libro);
+            System.out.println("  📗 Libro añadido: " + libro);
             System.out.println("=====================================================================");
         } else {
             System.out.println("===========================================================");

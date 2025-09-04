@@ -25,33 +25,33 @@ public class LibraryUI {
 
     //Método para mostrar el menu principal.
     public static String mostrarMenuPrincipal(Scanner leer){
-        System.out.println("========================================");
-        System.out.println("            Menú Principal              ");
-        System.out.println("========================================");
-        System.out.println("1. Gestion de Libros");
-        System.out.println("2. Salir");
-        System.out.print("Seleccione una opción: ");
-        return leer.next();
+        System.out.println("╔════════════════════════════╗");
+        System.out.println("║       MENÚ PRINCIPAL       ║");
+        System.out.println("╠════════════════════════════╣");
+        System.out.println("║ 1. Gestión de libros       ║");
+        System.out.println("║ 2. Salir                   ║");
+        System.out.println("╚════════════════════════════╝");
+        return leer.nextLine();
     }
 
     //Metodo para mostrar el menu de gestion de libros
     public static void mostrarMenuGestionLibros(Library biblioteca, Scanner leer){
         String opc;
         do{
-            System.out.println("========================================");
-            System.out.println("        Menú de Gestión de Libros       ");
-            System.out.println("========================================");
-            System.out.println("1. Añadir Libro");
-            System.out.println("2. Eliminar Libro");
-            System.out.println("3. Prestar Libro");
-            System.out.println("4. Regresar Libro");
-            System.out.println("5. Mostrar Todos los Libros");
-            System.out.println("6. Mostrar Solo Libros Disponibles");
-            System.out.println("7. Buscar Libro por Título");
-            System.out.println("8. Volver al Menú Principal");
-            System.out.print("Seleccione una opción: ");
-            opc = leer.next();
-            System.out.println("========================================");
+            System.out.println(" ╔═════════════════════════════════════╗");
+            System.out.println(" ║        MENÚ GESTIÓN DE LIBROS       ║");
+            System.out.println(" ╠═════════════════════════════════════╣");
+            System.out.println(" ║ 1. Añadir Libro                     ║");
+            System.out.println(" ║ 2. Eliminar Libro                   ║");
+            System.out.println(" ║ 3. Prestar Libro                    ║");
+            System.out.println(" ║ 4. Regresar Libro                   ║");
+            System.out.println(" ║ 5. Mostrar Todos los Libros         ║");
+            System.out.println(" ║ 6. Mostrar Solo Libros Disponibles  ║");
+            System.out.println(" ║ 7. Buscar Libro por Título          ║");
+            System.out.println(" ║ 8. Volver al Menú Principal         ║");
+            System.out.println(" ║ Seleccione una opción:              ║");
+            System.out.println(" ╚═════════════════════════════════════╝");
+            opc = leer.nextLine();
             switch (opc) {
                 case "1":
                     anadirLibroMenu(biblioteca, leer);
@@ -75,10 +75,10 @@ public class LibraryUI {
                     buscarLibroMenu(biblioteca, leer);
                     break;
                 case "8":
-                    System.out.println("Volviendo al Menú Principal...");
+                    System.out.println("↩️ Volviendo al Menú Principal...");
                 break;
                 default:
-                System.out.println("Opción no válida. Intente de nuevo.");
+                System.out.println("⚠️ Opción no válida. Intente de nuevo.");
             }
         } while (opc != "8"); {
             
@@ -106,15 +106,14 @@ public class LibraryUI {
             System.out.println("Libro añadido: " + libro);
             System.out.println("=====================================================================");
         } else {
-            System.out.println("========================================================");
-            System.out.println("No se puede añadir el libro. Capacidad máxima alcanzada.");
-            System.out.println("========================================================");
+            System.out.println("===========================================================");
+            System.out.println("= 🚫 No se puede añadir el libro. Capacidad máxima alcanzada =");
+            System.out.println("===========================================================");
         }
     }
 
     // 2: Método para eliminar un libro a partir del método eliminarLibro de la clase Library
     public static void eliminarLibroMenu(Library biblioteca, Scanner leer) {
-        leer.nextLine(); // Limpiar el buffer
         System.out.println();
         System.out.print("Ingrese el ISBN del libro a eliminar: ");
         String isbn = leer.nextLine();
@@ -134,13 +133,11 @@ public class LibraryUI {
 
     // 3: Método para prestar un libro a partir del método prestarLibro de la clase Library
     public static void prestarLibroMenu(Library biblioteca, Scanner leer) {
-        leer.nextLine(); // Limpiar el buffer
-
         //Validar si hay libros registrados
         if (biblioteca.getTodosLibros().isEmpty()) {
-            System.out.println("=============================================================");
-            System.out.println("No hay ningún libro registrado en la biblioteca para prestar.");
-            System.out.println("=============================================================");
+            System.out.println("=================================================================");
+            System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
+            System.out.println("=================================================================");
             return;
         }
         System.out.println();
@@ -167,8 +164,6 @@ public class LibraryUI {
 
     // 4: Método para regresar un libro a partir del método regresarLibro de la clase Library
     public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
-        leer.nextLine(); // Limpiar buffer
-
         // Validar si todos los libros están disponibles
         if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
         System.out.println("No hay libros prestados para regresar.");
@@ -216,7 +211,7 @@ public class LibraryUI {
         System.out.println("================================");
         if (biblioteca.getTodosLibros().isEmpty()) {
             System.out.println("===============================");
-            System.out.println("No hay libros en la biblioteca.");
+            System.out.println("No hay libros en la biblioteca ");
             System.out.println("===============================");
         } else {
             for (int i = 0; i < biblioteca.getTodosLibros().size(); i++) {
@@ -247,7 +242,6 @@ public class LibraryUI {
 
     // 7. Metodo para buscar un libro a partir del metodo buscarTitulo de la clase Library
     public static void buscarLibroMenu(Library biblioteca, Scanner leer) {
-        leer.nextLine(); // Limpiar el buffer
         System.out.print("Ingrese el título del libro a buscar: ");
         String titulo = leer.nextLine();
         Book libro = biblioteca.buscarTitulo(titulo);

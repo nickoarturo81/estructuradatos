@@ -81,4 +81,40 @@ lo que lo hace más adecuado para la gestión de libros en esta biblioteca, es d
 de búsqueda, consulta y recorrido (mostrar todos los libros, listar solo los disponibles o buscar por título/ISBN). En estos casos, 
 ArrayList resulta más eficiente, ya que permite accesos directos por índice, mientras que LinkedList obligaría a recorrer nodo por nodo.
 
-//CLASE 
+//CLASE LIBRARYUI
+
+Contiene el Main, permite mostrar una interfaz intectariva para el usuario final a partir de un menpu usando Scanner para leer la entrada
+del usuario. Se comunica con la clase Library para ejecutar las operaciones (Interfaz lógica). Se usa Scanner ya que es más fácil de usar
+para menús interactivos, porque lee directamente con métodos como nextLine(). Su simplibilidad funciona para programas educativos o practicas.
+BufferReader es más complejo, usado para usar gran volumenes de datos.
+
+Contiene la siguiente estructura:
+
++-----------------------------------+
+|            LibraryUI              |
++-----------------------------------+
+|                                   |
+|                                   |
++-----------------------------------+
+| Métodos:                          |
+| + main()                          |
+| + mostrarMenuPrincipal()          |
+| + mostrarMenuGestionLibros()      |
+| + anadirLibroMenu()               |
+| + eliminarLibroMenu()             |
+| + prestarLibroMenu()              |
+| + regresarLibroMenu()             |
+| + mostrarTodosLibros()            |
+| + mostrarLibrosDisponibles()      |
+| + buscarLibroMenu()               |
++-----------------------------------+
+
+        FUNCIONALIDADES PRINCIPALES
+
+* Añadir ibro                   -> Se crea un objeto Book y se añade al ArrayList de la clase Library.
+* Eliminar libro                -> Se busca por ISBN y se elimina si existe.
+* Prestar libro                 -> Cambia el estado de disponible true a false.
+* Regresar libro                -> Se valida si estaba prestado (false) y cambia el estado a (true).
+* Mostrar Todos                 -> Muestra todos los libros registrados, es decir, todos los datos del ArrayList
+* Mostrar Solo Disponibles      -> MUestra solo los libros que esten es estado no disponible (false).
+* Buscar por Titulo             -> Usa un sistema de comparación equals.

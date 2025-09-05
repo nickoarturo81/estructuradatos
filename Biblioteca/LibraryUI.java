@@ -19,7 +19,7 @@ public class LibraryUI {
                 default:
                     System.out.println(" ❌ Opción no válida. Intente de nuevo.");
             }
-        } while (opc != "2");
+        } while (!opc.equals("2"));
         leer.close();                   // <-- Cerrar el scanner para evitar fugas de memoria
     }
 
@@ -83,7 +83,7 @@ public class LibraryUI {
                 default:
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
-        } while (opc != "8"); {
+        } while (!opc.equals("8")); {
             
         }
 
@@ -174,46 +174,29 @@ public class LibraryUI {
 
     // 4: Método para regresar un libro a partir del método regresarLibro de la clase Library
     public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
-        // Validar si todos los libros están disponibles
+    // Validar si todos los libros están disponibles
         if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
-        System.out.println("No hay libros prestados para regresar.");
-        return;
+            System.out.println("No hay libros prestados para regresar.");
+            return;
         }
+
         System.out.println();
         System.out.print("Ingrese el ISBN del libro a regresar: ");
         String isbn = leer.nextLine();
 
-        // Buscar el libro en todos los libros
-        Book libroEncontrado = null;
-        for (int i = 0; i < biblioteca.getTodosLibros().size(); i++) {
-            Book libro = biblioteca.getTodosLibros().get(i);
-            if (libro.getIsbn().equals(isbn)) {
-                libroEncontrado = libro;
-                break;
-            }
-        }
+        // Usar directamente el método de Library
+        boolean resultado = biblioteca.regresarLibro(isbn);
 
-        // CEn caso de que el libro no exista
-        if (libroEncontrado == null) {
+        if (resultado) {
             System.out.println();
             System.out.println("=================================================");
-            System.out.println("El libro no está en el sistema o no se encuentra.");
-            System.out.println("=================================================");
-            return;
-        }
-
-        // Si el libro existe, verificar si está prestado y regresarlo
-        if (!libroEncontrado.isDisponible()) {
-            libroEncontrado.setDisponible(true);
-            System.out.println();
-            System.out.println("=================================================");
-            System.out.println("Libro regresado: " + libroEncontrado.getTitulo());
+            System.out.println("✅ Libro con ISBN " + isbn + " regresado con éxito.");
             System.out.println("=================================================");
         } else {
             System.out.println();
-            System.out.println("=============================");
-            System.out.println("Ese libro no estaba prestado.");
-            System.out.println("=============================");
+            System.out.println("=================================================");
+            System.out.println("❌ El libro no existe o ya estaba disponible.");
+            System.out.println("=================================================");
         }
     }
 

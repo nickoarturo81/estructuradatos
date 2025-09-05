@@ -80,3 +80,5 @@ búsqueda y recorrido que de inserción o eliminación. ArrayList permite acceso
 lo que lo hace más adecuado para la gestión de libros en esta biblioteca, es decir, el sistema realiza con mayor frecuencia operaciones 
 de búsqueda, consulta y recorrido (mostrar todos los libros, listar solo los disponibles o buscar por título/ISBN). En estos casos, 
 ArrayList resulta más eficiente, ya que permite accesos directos por índice, mientras que LinkedList obligaría a recorrer nodo por nodo.
+
+//CLASE 

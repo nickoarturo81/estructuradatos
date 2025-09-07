@@ -1,8 +1,8 @@
 README - Sistema de Gestión de Biblioteca
 
-        DESCRIPCIÖN:
+        DESCRIPCIÓN:
 
-Nuestro proyecto tiene como finalidad implementar un sistema de gestión de libros para una biblioteca utilizando lenguaje JAVA.
+Mi proyecto tiene como finalidad implementar un sistema de gestión de libros para una biblioteca utilizando lenguaje JAVA.
 El sistema está compuesto por cuatro clases donde tres de ellos trabajan en conjunto para proporcionar una interfaz funcional y
 una gestión efectiva de libros. Las tres clases son: Book, Library y LibraryUI, el cuarto es LibraryTest el cual fue creado para
 realizar pruebas.

@@ -127,13 +127,13 @@ public class LibraryUI {
         if (tituloEliminado != null) {
             System.out.println();
             System.out.println("================================================================================================");
-            System.out.println("🗑️ Libro eliminado: " + tituloEliminado + " Total libros: " + biblioteca.getTodosLibros().size() + ")");
+            System.out.println(" 🗑️ Libro eliminado: " + tituloEliminado + " Total libros: " + biblioteca.getTodosLibros().size() + ")");
             System.out.println("================================================================================================");
         } else {
             System.out.println();
-            System.out.println("============================================");
-            System.out.println("🤔 Libro con ISBN " + isbn + " no encontrado ");
-            System.out.println("============================================");
+            System.out.println("===============================================");
+            System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no encontrado ");
+            System.out.println("===============================================");
         }
     }
 
@@ -156,19 +156,19 @@ public class LibraryUI {
 
         if (resultado == null) {
             System.out.println();
-            System.out.println("============================================");
-            System.out.println("Libro con ISBN " + isbn + " no fue encontrado.");
-            System.out.println("============================================");
+            System.out.println("===================================================");
+            System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
+            System.out.println("===================================================");
         } else if (resultado.equals("")) {
             System.out.println();
             System.out.println("===================================================================");
-            System.out.println("El libro con ISBN " + isbn + " ya está prestado y no está disponible.");
+            System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.");
             System.out.println("===================================================================");
         } else {
             System.out.println();
-            System.out.println("============================");
-            System.out.println("Libro prestado: " + resultado);
-            System.out.println("============================");
+            System.out.println("====================================");
+            System.out.println(" ✅ Libro prestado: " + resultado);
+            System.out.println("====================================");
         }
     }
 
@@ -176,7 +176,7 @@ public class LibraryUI {
     public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
     // Validar si todos los libros están disponibles
         if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
-            System.out.println("No hay libros prestados para regresar.");
+            System.out.println(" 📚❌ No hay libros prestados para regresar.");
             return;
         }
 
@@ -190,12 +190,12 @@ public class LibraryUI {
         if (resultado) {
             System.out.println();
             System.out.println("=================================================");
-            System.out.println("✅ Libro con ISBN " + isbn + " regresado con éxito.");
+            System.out.println(" ✅ Libro con ISBN " + isbn + " regresado con éxito.");
             System.out.println("=================================================");
         } else {
             System.out.println();
             System.out.println("=================================================");
-            System.out.println("❌ El libro no existe o ya estaba disponible.");
+            System.out.println(" ❌ El libro no existe o ya estaba disponible.");
             System.out.println("=================================================");
         }
     }
@@ -208,9 +208,9 @@ public class LibraryUI {
         System.out.println("╚═══════════════════════════════╝");
         if (biblioteca.getTodosLibros().isEmpty()) {
             System.out.println();
-            System.out.println("===============================");
-            System.out.println("No hay libros en la biblioteca ");
-            System.out.println("===============================");
+            System.out.println("=====================================");
+            System.out.println(" 📚❌ No hay libros en la biblioteca ");
+            System.out.println("=====================================");
         } else {
             for (int i = 0; i < biblioteca.getTodosLibros().size(); i++) {
                 Book libro = biblioteca.getTodosLibros().get(i);
@@ -227,9 +227,9 @@ public class LibraryUI {
         System.out.println("╚═══════════════════════════════╝");
         if (biblioteca.getLibrosDisponibles().isEmpty()) {
             System.out.println();
-            System.out.println("===========================================");
-            System.out.println("No hay libros disponibles en la biblioteca.");
-            System.out.println("===========================================");
+            System.out.println("==================================================");
+            System.out.println(" 📚❌ No hay libros disponibles en la biblioteca.");
+            System.out.println("==================================================");
         } else {
             for (int i = 0; i < biblioteca.getLibrosDisponibles().size(); i++) {
                 Book libro = biblioteca.getLibrosDisponibles().get(i);
@@ -246,14 +246,14 @@ public class LibraryUI {
 
         if (libro != null) {
             System.out.println();
-            System.out.println("===========================================================================");                             // <-- Si el libro es diferente a nulo, es decir, que hay datos
-            System.out.println("Libro encontrado: " + libro);
-            System.out.println("===========================================================================");
+            System.out.println("================================================================================================");                             // <-- Si el libro es diferente a nulo, es decir, que hay datos
+            System.out.println(" ✅ Libro encontrado: " + libro);
+            System.out.println("================================================================================================");
         } else {
             System.out.println();
-            System.out.println("==============================================");
-            System.out.println("Libro con título '" + titulo + "' no encontrado.");
-            System.out.println("==============================================");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
+            System.out.println("=============================================================");
+            System.out.println(" 🔎❌ Libro con título '" + titulo + "' no encontrado.");
+            System.out.println("=============================================================");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
         }
     }
 }

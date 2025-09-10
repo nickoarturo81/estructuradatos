@@ -20,7 +20,7 @@ public class LibraryUI {
                     System.out.println(" ❌ Opción no válida. Intente de nuevo.");
             }
         } while (!opc.equals("2"));
-        leer.close();                   // <-- Cerrar el scanner para evitar fugas de memoria
+        leer.close();                                                                                   // Cerrar el scanner para liberar memoria
     }
 
     //Método para mostrar el menu principal.

@@ -3,8 +3,8 @@ package Biblioteca;
 import java.util.ArrayList;
 
 public class Library {
-    private ArrayList<Book> libros;                                           // Se crea una lista llamada libros
-    private int capacidadMaxima;                                              // Capacidad máxima de la biblioteca
+    private ArrayList<Book> libros;                                           
+    private int capacidadMaxima;                                              
     
     //Constructor que inicializa la biblioteca con una capacidad determinada
     public Library(int capacidad) {

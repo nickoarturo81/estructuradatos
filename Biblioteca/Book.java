@@ -55,8 +55,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return String.format(
-                "Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s]", titulo, autor, isbn, disponible ? "Sí" : "No");
+        return String.format("Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s]", titulo, autor, isbn, disponible ? "Sí" : "No");
     }
-    //Permitira mostrar la informacion del libro de forma legible en metodos como mostrarTodosLibros o mostrarLibrosDisponibles
+    //Permitira mostrar la informacion del libro de forma legible.
 }

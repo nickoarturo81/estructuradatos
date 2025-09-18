@@ -5,7 +5,7 @@ public class MyArrayList <T> {
 
     // Constructor que inicializa el objeto myArray con un tamaño específico
     public MyArrayList(int size){
-        myArray = (T[]) new Object[default_size];
+        myArray = (T[]) new Object[size];
         size = 0;
     }
     public void add(Object object) {

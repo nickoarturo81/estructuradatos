@@ -12,6 +12,16 @@ public class Library {
         this.capacidadMaxima = capacidad;
     }
 
+    //Metodo para añadir un libro a la biblioteca
+    public boolean anadirLibro(Book libro) {
+        if (libro == null) return false;                                       
+        if (libros.size() < capacidadMaxima) {                              
+            libros.add(libro);                                              
+            return true;                                                   
+        } 
+        return false;                                                       
+    }
+
     // Metodo para buscar un libro por su titulo
     public Book buscarTitulo(String titulo) {
         for (int i = 0; i < libros.size(); i++) {
@@ -23,15 +33,6 @@ public class Library {
         return null;
     }
 
-    //Metodo para añadir un libro a la biblioteca
-    public boolean anadirLibro(Book libro) {
-        if (libro == null) return false;                                       
-        if (libros.size() < capacidadMaxima) {                              
-            libros.add(libro);                                              
-            return true;                                                   
-        } 
-        return false;                                                       
-    }
 
     // Metodo para eliminar un libro de la biblioteca
     public String eliminarLibro(String isbn) {

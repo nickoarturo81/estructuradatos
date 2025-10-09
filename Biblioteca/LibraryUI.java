@@ -291,4 +291,8 @@ public class LibraryUI {
      * regresar libro
      * cola de espera de libros prestados
      */
+
+    /*
+     * para el deshacer, cada proceso que se realice se debe almacenar en una "transaccion" y se almacenara en la pila.
+     */
 }

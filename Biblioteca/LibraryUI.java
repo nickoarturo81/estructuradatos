@@ -14,6 +14,9 @@ public class LibraryUI {
                     mostrarMenuGestionLibros(biblioteca, leer);
                     break;
                 case "2":
+                    mostrarMenuGestionUsuarios(biblioteca, leer);
+                    break;
+                case "3":
                     System.out.println(" Saliendo del programa...");
                     break;
                 default:
@@ -29,7 +32,8 @@ public class LibraryUI {
         System.out.println("║       MENÚ PRINCIPAL       ║");
         System.out.println("╠════════════════════════════╣");
         System.out.println("║ 1. Gestión de libros       ║");
-        System.out.println("║ 2. Salir                   ║");
+        System.out.println("║ 2. Gestión de Usuarios     ║");
+        System.out.println("║ 3. Salir                   ║");
         System.out.println("╚════════════════════════════╝");
         System.out.print("Seleccione una opción: ");
         return leer.nextLine();
@@ -89,6 +93,29 @@ public class LibraryUI {
 
     }
 
+    //Metodo para mostrar el menu de gestion de usuarios
+    public static void mostrarMenuGestionUsuarios(Library biblioteca, Scanner leer){
+        String opc;
+        do{
+            System.out.println();
+            System.out.println(" ╔═════════════════════════════════════╗");
+            System.out.println(" ║       MENÚ GESTIÓN DE USUARIOS      ║");
+            System.out.println(" ╠═════════════════════════════════════╣");
+            System.out.println(" ║ 1. Añadir Usuario                   ║");
+            System.out.println(" ║ 2. Eliminar Usuario                 ║");
+            System.out.println(" ║ 3. Historial de Prestamos           ║");
+            System.out.println(" ║ 4. Mostrar Usuario                  ║");
+            System.out.println(" ║ 5. Buscar Usuario                   ║");
+            System.out.println(" ║ 6. Reportes Básicos                 ║");
+            System.out.println(" ║ 7. Volver al Menú Principal         ║");
+            System.out.println(" ╚═════════════════════════════════════╝");
+            System.out.print("Seleccione una opción: ");
+            opc = leer.nextLine();
+            switch (opc) {}
+        } while (!opc.equals("7")); {
+            System.out.println("↩️ Volviendo al Menú Principal...");
+        }
+    }
     // 1: Metodo para añadir un libro a partir del metodo anadirLibro de la clase Library
     public static void anadirLibroMenu(Library biblioteca, Scanner leer) {
         System.out.println();

@@ -285,4 +285,10 @@ public class LibraryUI {
             System.out.println("=============================================================");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
         }
     }
+    /*
+     * sistema de prestamos
+     * prestar libro
+     * regresar libro
+     * cola de espera de libros prestados
+     */
 }

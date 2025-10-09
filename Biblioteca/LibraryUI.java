@@ -31,9 +31,11 @@ public class LibraryUI {
         System.out.println("╔════════════════════════════╗");
         System.out.println("║       MENÚ PRINCIPAL       ║");
         System.out.println("╠════════════════════════════╣");
-        System.out.println("║ 1. Gestión de libros       ║");
+        System.out.println("║ 1. Gestión de Libros       ║");
         System.out.println("║ 2. Gestión de Usuarios     ║");
-        System.out.println("║ 3. Salir                   ║");
+        System.out.println("║ 3. Sistema de Prestamos    ║");
+        System.out.println("║ 4. Deshacer                ║");
+        System.out.println("║ 5. Salir                   ║");
         System.out.println("╚════════════════════════════╝");
         System.out.print("Seleccione una opción: ");
         return leer.nextLine();
@@ -49,10 +51,10 @@ public class LibraryUI {
             System.out.println(" ╠═════════════════════════════════════╣");
             System.out.println(" ║ 1. Añadir Libro                     ║");
             System.out.println(" ║ 2. Eliminar Libro                   ║");
-            System.out.println(" ║ 3. Prestar Libro                    ║");
-            System.out.println(" ║ 4. Regresar Libro                   ║");
-            System.out.println(" ║ 5. Mostrar Todos los Libros         ║");
-            System.out.println(" ║ 6. Mostrar Solo Libros Disponibles  ║");
+            System.out.println(" ║ 3. Prestar Libro (Inactivar)        ║");
+            System.out.println(" ║ 4. Regresar Libro (Inactivar)       ║");
+            System.out.println(" ║ 5. Mostrar Libros                   ║");
+            System.out.println(" ║ 6. Mostrar Libros Disponibles       ║");
             System.out.println(" ║ 7. Buscar Libro por Título          ║");
             System.out.println(" ║ 8. Volver al Menú Principal         ║");
             System.out.println(" ╚═════════════════════════════════════╝");
@@ -104,7 +106,7 @@ public class LibraryUI {
             System.out.println(" ║ 1. Añadir Usuario                   ║");
             System.out.println(" ║ 2. Eliminar Usuario                 ║");
             System.out.println(" ║ 3. Historial de Prestamos           ║");
-            System.out.println(" ║ 4. Mostrar Usuario                  ║");
+            System.out.println(" ║ 4. Mostrar Usuarios                 ║");
             System.out.println(" ║ 5. Buscar Usuario                   ║");
             System.out.println(" ║ 6. Reportes Básicos                 ║");
             System.out.println(" ║ 7. Volver al Menú Principal         ║");

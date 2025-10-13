@@ -17,6 +17,9 @@ public class LibraryUI {
                     mostrarMenuGestionUsuarios(biblioteca, leer);
                     break;
                 case "3":
+                    mostrarMenuSistemaPrestamos(biblioteca, leer);
+                break;
+                case "5":
                     System.out.println(" Saliendo del programa...");
                     break;
                 default:
@@ -51,12 +54,10 @@ public class LibraryUI {
             System.out.println(" ╠═════════════════════════════════════╣");
             System.out.println(" ║ 1. Añadir Libro                     ║");
             System.out.println(" ║ 2. Eliminar Libro                   ║");
-            System.out.println(" ║ 3. Prestar Libro (Inactivar)        ║");
-            System.out.println(" ║ 4. Regresar Libro (Inactivar)       ║");
-            System.out.println(" ║ 5. Mostrar Libros                   ║");
-            System.out.println(" ║ 6. Mostrar Libros Disponibles       ║");
-            System.out.println(" ║ 7. Buscar Libro por Título          ║");
-            System.out.println(" ║ 8. Volver al Menú Principal         ║");
+            System.out.println(" ║ 3. Mostrar Libros                   ║");
+            System.out.println(" ║ 4. Mostrar Libros Disponibles       ║");
+            System.out.println(" ║ 5. Buscar Libro por Título          ║");
+            System.out.println(" ║ 6. Volver al Menú Principal         ║");
             System.out.println(" ╚═════════════════════════════════════╝");
             System.out.print("Seleccione una opción: ");
             
@@ -64,60 +65,32 @@ public class LibraryUI {
             switch (opc) {
                 case "1":
                     anadirLibroMenu(biblioteca, leer);
-                    break;
+                break;
                 case "2":
                     eliminarLibroMenu(biblioteca, leer);
-                    break;
+                break;
                 case "3":
-                    prestarLibroMenu(biblioteca, leer);
-                    break;
-                case "4":
-                    regresarLibroMenu(biblioteca, leer);
-                    break;
-                case "5":
                     mostrarTodosLibros(biblioteca);
-                    break;
-                case "6":
+                break;
+                case "4":
                     mostrarLibrosDisponibles(biblioteca);
-                    break;
-                case "7":
+                break;
+                case "5":
                     buscarLibroMenu(biblioteca, leer);
-                    break;
-                case "8":
+                break;
+                case "6":
                     System.out.println("↩️ Volviendo al Menú Principal...");
                 break;
                 default:
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
-        } while (!opc.equals("8")); {
-            
-        }
-
-    }
-
-    //Metodo para mostrar el menu de gestion de usuarios
-    public static void mostrarMenuGestionUsuarios(Library biblioteca, Scanner leer){
-        String opc;
-        do{
+        } while (!opc.equals("6")); {
             System.out.println();
-            System.out.println(" ╔═════════════════════════════════════╗");
-            System.out.println(" ║       MENÚ GESTIÓN DE USUARIOS      ║");
-            System.out.println(" ╠═════════════════════════════════════╣");
-            System.out.println(" ║ 1. Añadir Usuario                   ║");
-            System.out.println(" ║ 2. Eliminar Usuario                 ║");
-            System.out.println(" ║ 3. Historial de Prestamos           ║");
-            System.out.println(" ║ 4. Mostrar Usuarios                 ║");
-            System.out.println(" ║ 5. Buscar Usuario                   ║");
-            System.out.println(" ║ 6. Reportes Básicos                 ║");
-            System.out.println(" ║ 7. Volver al Menú Principal         ║");
-            System.out.println(" ╚═════════════════════════════════════╝");
-            System.out.print("Seleccione una opción: ");
-            opc = leer.nextLine();
-            switch (opc) {}
-        } while (!opc.equals("7")); {
-            System.out.println("↩️ Volviendo al Menú Principal...");
         }
+
+
     }
+
     // 1: Metodo para añadir un libro a partir del metodo anadirLibro de la clase Library
     public static void anadirLibroMenu(Library biblioteca, Scanner leer) {
         System.out.println();
@@ -163,69 +136,6 @@ public class LibraryUI {
             System.out.println("===============================================");
             System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no encontrado ");
             System.out.println("===============================================");
-        }
-    }
-
-    // 3: Método para prestar un libro a partir del método prestarLibro de la clase Library
-    public static void prestarLibroMenu(Library biblioteca, Scanner leer) {
-        //Validar si hay libros registrados
-        if (biblioteca.getTodosLibros().isEmpty()) {
-            System.out.println();
-            System.out.println("=================================================================");
-            System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
-            System.out.println("=================================================================");
-            return;
-        }
-        System.out.println();
-        System.out.println();
-        System.out.print("Ingrese el ISBN del libro a prestar: ");
-        String isbn = leer.nextLine();
-
-        String resultado = biblioteca.prestarLibro(isbn);
-
-        if (resultado == null) {
-            System.out.println();
-            System.out.println("===================================================");
-            System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
-            System.out.println("===================================================");
-        } else if (resultado.equals("")) {
-            System.out.println();
-            System.out.println("===================================================================");
-            System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.");
-            System.out.println("===================================================================");
-        } else {
-            System.out.println();
-            System.out.println("====================================");
-            System.out.println(" ✅ Libro prestado: " + resultado);
-            System.out.println("====================================");
-        }
-    }
-
-    // 4: Método para regresar un libro a partir del método regresarLibro de la clase Library
-    public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
-    // Validar si todos los libros están disponibles
-        if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
-            System.out.println(" 📚❌ No hay libros prestados para regresar.");
-            return;
-        }
-
-        System.out.println();
-        System.out.print("Ingrese el ISBN del libro a regresar: ");
-        String isbn = leer.nextLine();
-
-        // Usar directamente el método de Library
-        boolean resultado = biblioteca.regresarLibro(isbn);
-
-        if (resultado) {
-            System.out.println();
-            System.out.println("=================================================");
-            System.out.println(" ✅ Libro con ISBN " + isbn + " regresado con éxito.");
-            System.out.println("=================================================");
-        } else {
-            System.out.println();
-            System.out.println("=================================================");
-            System.out.println(" ❌ El libro no existe o ya estaba disponible.");
-            System.out.println("=================================================");
         }
     }
 
@@ -285,12 +195,153 @@ public class LibraryUI {
             System.out.println("=============================================================");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
         }
     }
-    /*
-     * sistema de prestamos
-     * prestar libro
-     * regresar libro
-     * cola de espera de libros prestados
-     */
+
+    //Metodo para mostrar el menu de gestion de usuarios
+    public static void mostrarMenuGestionUsuarios(Library biblioteca, Scanner leer){
+        String opc;
+        do{
+            System.out.println();
+            System.out.println(" ╔═════════════════════════════════════╗");
+            System.out.println(" ║       MENÚ GESTIÓN DE USUARIOS      ║");
+            System.out.println(" ╠═════════════════════════════════════╣");
+            System.out.println(" ║ 1. Añadir Usuario                   ║");
+            System.out.println(" ║ 2. Eliminar Usuario                 ║");
+            System.out.println(" ║ 3. Historial de Prestamos           ║");
+            System.out.println(" ║ 4. Mostrar Usuarios                 ║");
+            System.out.println(" ║ 5. Buscar Usuario                   ║");
+            System.out.println(" ║ 6. Reportes Básicos                 ║");
+            System.out.println(" ║ 7. Volver al Menú Principal         ║");
+            System.out.println(" ╚═════════════════════════════════════╝");
+            System.out.print("Seleccione una opción: ");
+            opc = leer.nextLine();
+            switch (opc) {
+                case "1":
+                    System.out.println("Funcionalidad de Añadir Usuario no implementada aún.");
+                break;
+                case "2":
+                    System.out.println("Funcionalidad de Eliminar Usuario no implementada aún.");
+                break;
+                case "3":
+                    System.out.println("Funcionalidad de Historial de Prestamos no implementada aún.");
+                break;
+                case "4":
+                    System.out.println("Funcionalidad de Mostrar Usuarios no implementada aún.");
+                break;
+                case "5":
+                    System.out.println("Funcionalidad de Buscar Usuario no implementada aún.");
+                break;
+                case "6":
+                    System.out.println("Funcionalidad de Reportes Básicos no implementada aún.");
+                break;
+                case "7":
+                    System.out.println("↩️ Volviendo al Menú Principal...");
+                break;
+                default:
+                System.out.println("❌ Opción no válida. Intente de nuevo.");
+            }
+        } while (!opc.equals("7")); {
+            System.out.println("");
+        }
+    }
+
+    //Metodo para mostrar el menú de sistema de prestamos
+    public static void mostrarMenuSistemaPrestamos(Library biblioteca, Scanner leer){
+        String opc;
+        do{
+            System.out.println();
+            System.out.println(" ╔═════════════════════════════════════╗");
+            System.out.println(" ║        MENÚ SISTEMA DE PRÉSTAMOS    ║");
+            System.out.println(" ╠═════════════════════════════════════╣");
+            System.out.println(" ║ 1. Prestar Libro                    ║");
+            System.out.println(" ║ 2. Regresar Libro                   ║");
+            System.out.println(" ║ 3. Ver Cola de Espera               ║");
+            System.out.println(" ║ 4. Volver al Menú Principal         ║");
+            System.out.println(" ╚═════════════════════════════════════╝");
+            System.out.print("Seleccione una opción: ");
+            opc = leer.nextLine();
+            switch (opc) {
+                case "1":
+                    prestarLibroMenu(biblioteca, leer);
+                break;
+                case "2":
+                    regresarLibroMenu(biblioteca, leer);
+                break;
+                case "3":
+                    System.out.println("Funcionalidad de Ver Cola de Espera no implementada aún.");
+                break;
+                case "4":
+                    System.out.println("↩️ Volviendo al Menú Principal...");
+                break;
+                default:
+                System.out.println("❌ Opción no válida. Intente de nuevo.");
+            }
+        } while (!opc.equals("4")); {
+            System.out.println("");
+        }
+    }
+
+    // 1: Método para prestar un libro a partir del método prestarLibro de la clase Library
+    public static void prestarLibroMenu(Library biblioteca, Scanner leer) {
+        //Validar si hay libros registrados
+        if (biblioteca.getTodosLibros().isEmpty()) {
+            System.out.println();
+            System.out.println("=================================================================");
+            System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
+            System.out.println("=================================================================");
+            return;
+        }
+        System.out.println();
+        System.out.println();
+        System.out.print("Ingrese el ISBN del libro a prestar: ");
+        String isbn = leer.nextLine();
+
+        String resultado = biblioteca.prestarLibro(isbn);
+
+        if (resultado == null) {
+            System.out.println();
+            System.out.println("===================================================");
+            System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
+            System.out.println("===================================================");
+        } else if (resultado.equals("")) {
+            System.out.println();
+            System.out.println("===================================================================");
+            System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.");
+            System.out.println("===================================================================");
+        } else {
+            System.out.println();
+            System.out.println("====================================");
+            System.out.println(" ✅ Libro prestado: " + resultado);
+            System.out.println("====================================");
+        }
+    }
+
+    // 2: Método para regresar un libro a partir del método regresarLibro de la clase Library
+    public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
+    // Validar si todos los libros están disponibles
+        if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
+            System.out.println(" 📚❌ No hay libros prestados para regresar.");
+            return;
+        }
+
+        System.out.println();
+        System.out.print("Ingrese el ISBN del libro a regresar: ");
+        String isbn = leer.nextLine();
+
+        // Usar directamente el método de Library
+        boolean resultado = biblioteca.regresarLibro(isbn);
+
+        if (resultado) {
+            System.out.println();
+            System.out.println("=================================================");
+            System.out.println(" ✅ Libro con ISBN " + isbn + " regresado con éxito.");
+            System.out.println("=================================================");
+        } else {
+            System.out.println();
+            System.out.println("=================================================");
+            System.out.println(" ❌ El libro no existe o ya estaba disponible.");
+            System.out.println("=================================================");
+        }
+    }
 
     /*
      * para el deshacer, cada proceso que se realice se debe almacenar en una "transaccion" y se almacenara en la pila.

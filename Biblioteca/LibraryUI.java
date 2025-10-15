@@ -221,13 +221,13 @@ public class LibraryUI {
                     anadirUsuarioMenu(users, leer);
                 break;
                 case "2":
-                    System.out.println("Funcionalidad de Eliminar Usuario no implementada aún.");
+                    eliminarUsuarioMenu(users, leer);
                 break;
                 case "3":
-                    System.out.println("Funcionalidad de Historial de Prestamos no implementada aún.");
+                    historialDePrestamosMenu(users, leer);
                 break;
                 case "4":
-                    System.out.println("Funcionalidad de Mostrar Usuarios no implementada aún.");
+                    users.mostrarUsuarios();
                 break;
                 case "5":
                     System.out.println("Funcionalidad de Buscar Usuario no implementada aún.");
@@ -248,7 +248,9 @@ public class LibraryUI {
 
     //Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
     public static void anadirUsuarioMenu(Users users, Scanner leer) {
-        System.out.println();
+        System.out.println("╔═══════════════════════════╗");
+        System.out.println("║       Añadir Usuario      ║");
+        System.out.println("╚═══════════════════════════╝");
         System.out.print("Ingrese el ID del usuario: ");
         String idUsuario = leer.nextLine();
         System.out.println();
@@ -258,11 +260,12 @@ public class LibraryUI {
         System.out.print("Ingrese el apellido del usuario: ");
         String apellido = leer.nextLine();
         System.out.println();
-        System.out.print("Ingrese el teléfono del usuario: ");
-        int telefono = (leer.nextInt());
-        System.out.println();
         System.out.print("Ingrese el email del usuario: ");
         String email = leer.nextLine();
+        System.out.println();
+        System.out.print("Ingrese el teléfono del usuario: ");
+        String telefono = leer.nextLine();
+        System.out.println();
 
         // Crear el objeto User
         User nuevoUsuario = new User(idUsuario, nombre, apellido, email, telefono);

@@ -1,5 +1,7 @@
 package Biblioteca;
 
+import java.util.LinkedList;
+
 public class User {
     //Atributos
     private String nombre;
@@ -7,6 +9,7 @@ public class User {
     private String idUsuario;
     private String email;
     private int telefono;
+    private LinkedList<Prestamo> historialPrestamos; // 👈 historial individual
 
     // Constructor
     public User(String nombre, String apellido, String idUsuario, String email, int telefono) {
@@ -15,6 +18,7 @@ public class User {
         this.idUsuario = idUsuario;
         this.email = email;
         this.telefono = telefono;
+        this.historialPrestamos = new LinkedList<>();
     }
     //Esto nos permite crear un usuario con todos sus atributos
 
@@ -33,6 +37,10 @@ public class User {
     }
     public int getTelefono() {
         return telefono;
+    }
+
+    public LinkedList<Prestamo> getHistorialPrestamos() {
+        return historialPrestamos;
     }
     //Los getters permiten consultar los atributos de un usuario
 

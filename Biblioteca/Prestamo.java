@@ -32,8 +32,7 @@ public class Prestamo {
     @Override
     public String toString() {
         return String.format(
-            "Préstamo [Usuario ID: %s | Libro: %s | Fecha Préstamo: %s | Fecha Devolución: %s]",
-            idUsuario, tituloLibro, fechaPrestamo, fechaDevolucion
+            "Préstamo [Usuario ID: %s | Libro: %s | Fecha Préstamo: %s | Fecha Devolución: %s]", idUsuario, tituloLibro, fechaPrestamo, fechaDevolucion
         );
     }
 }

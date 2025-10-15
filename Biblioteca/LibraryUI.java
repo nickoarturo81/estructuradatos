@@ -1,11 +1,13 @@
 package Biblioteca;
 
 import java.util.Scanner;
+import java.util.LinkedList;
 
 public class LibraryUI {
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
         Library biblioteca = new Library(50);
+        Users users = new Users();
         String opc;
         do {
             opc = mostrarMenuPrincipal(leer);
@@ -14,7 +16,7 @@ public class LibraryUI {
                     mostrarMenuGestionLibros(biblioteca, leer);
                     break;
                 case "2":
-                    mostrarMenuGestionUsuarios(biblioteca, leer);
+                    mostrarMenuGestionUsuarios(users, leer);
                     break;
                 case "3":
                     mostrarMenuSistemaPrestamos(biblioteca, leer);
@@ -197,7 +199,7 @@ public class LibraryUI {
     }
 
     //Metodo para mostrar el menu de gestion de usuarios
-    public static void mostrarMenuGestionUsuarios(Library biblioteca, Scanner leer){
+    public static void mostrarMenuGestionUsuarios(Users users, Scanner leer) {
         String opc;
         do{
             System.out.println();
@@ -216,7 +218,7 @@ public class LibraryUI {
             opc = leer.nextLine();
             switch (opc) {
                 case "1":
-                    System.out.println("Funcionalidad de Añadir Usuario no implementada aún.");
+                    anadirUsuarioMenu(users, leer);
                 break;
                 case "2":
                     System.out.println("Funcionalidad de Eliminar Usuario no implementada aún.");
@@ -243,6 +245,78 @@ public class LibraryUI {
             System.out.println("");
         }
     }
+
+    //Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
+    public static void anadirUsuarioMenu(Users users, Scanner leer) {
+        System.out.println();
+        System.out.print("Ingrese el ID del usuario: ");
+        String idUsuario = leer.nextLine();
+        System.out.println();
+        System.out.print("Ingrese el nombre del usuario: ");
+        String nombre = leer.nextLine();
+        System.out.println();
+        System.out.print("Ingrese el apellido del usuario: ");
+        String apellido = leer.nextLine();
+        System.out.println();
+        System.out.print("Ingrese el teléfono del usuario: ");
+        int telefono = (leer.nextInt());
+        System.out.println();
+        System.out.print("Ingrese el email del usuario: ");
+        String email = leer.nextLine();
+
+        // Crear el objeto User
+        User nuevoUsuario = new User(idUsuario, nombre, apellido, email, telefono);
+
+        //Usamos el método anadirUsuario() de la clase Users
+        users.anadirUsuario(nuevoUsuario);
+        System.out.println();
+        System.out.println("===================================================================================================================");
+        System.out.println("  ✅ Usuario añadido: " + nuevoUsuario);
+        System.out.println("===================================================================================================================");
+    }
+
+    //Metodo para eliminar un usuario a partir del metodo eliminarUsuario de la clase Users
+    public static void eliminarUsuarioMenu(Users users, Scanner leer) {
+        System.out.println();
+        System.out.print("Ingrese el ID del usuario a eliminar: ");
+        String idUsuario = leer.nextLine();
+        boolean eliminado = users.eliminarUsuario(idUsuario);
+        if (eliminado) {
+            System.out.println();
+            System.out.println("==============================================================");
+            System.out.println(" ✅ Usuario con ID " + idUsuario + " eliminado con éxito.");
+            System.out.println("==============================================================");
+        } else {
+            System.out.println();
+            System.out.println("==============================================================");
+            System.out.println(" ❌ Usuario con ID " + idUsuario + " no encontrado.");
+            System.out.println("==============================================================");
+        }
+    }
+
+    // Metodo para el historial de prestamos de un usuario a partir del metodo historialDePrestamos de la clase Users
+    public static void historialDePrestamosMenu(Users users, Scanner leer) {
+        System.out.println();
+        System.out.print("Ingrese el ID del usuario para ver su historial de préstamos: ");
+        String idUsuario = leer.nextLine();
+        LinkedList<Prestamo> historial = users.historialDePrestamos(idUsuario);
+        if (historial != null && !historial.isEmpty()) {
+            System.out.println();
+            System.out.println("╔═══════════════════════════════╗");
+            System.out.println("║     Historial de Préstamos    ║");
+            System.out.println("╚═══════════════════════════════╝");
+            for (int i = 0; i < historial.size(); i++) {
+                Prestamo prestamo = historial.get(i);
+                System.out.println((i + 1) + ". " + prestamo);
+            }
+        } else {
+            System.out.println();
+            System.out.println("==============================================================");
+            System.out.println(" 📚❌ No hay historial de préstamos para el usuario con ID " + idUsuario);
+            System.out.println("==============================================================");
+        }
+    }
+
 
     //Metodo para mostrar el menú de sistema de prestamos
     public static void mostrarMenuSistemaPrestamos(Library biblioteca, Scanner leer){

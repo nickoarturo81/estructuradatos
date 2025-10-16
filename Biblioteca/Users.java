@@ -8,9 +8,14 @@ public class Users {
         
     private ArrayList<User> users;
 
-    // Contructor
+    // Constructor
     public Users() {
-        this.users = new ArrayList<>();
+    this.users = new ArrayList<>();
+    }
+
+    // Método para obtener todos los usuarios como ArrayList
+    public ArrayList<User> getTodosUsuarios() {
+    return this.users;
     }
 
     // Añadir Usuario
@@ -48,18 +53,6 @@ public class Users {
             User user = it.next();
             System.out.println(user);
         }
-    }
-
-    // Buscar Usuario con Iterator
-    public User buscarUsuario(String idUsuario) {
-        Iterator<User> it = users.iterator();
-        while (it.hasNext()) {
-            User user = it.next();
-            if (user.getIdUsuario().equalsIgnoreCase(idUsuario)) {
-                return user;
-            }
-        }
-        return null; // Usuario no encontrado
     }
     
 }

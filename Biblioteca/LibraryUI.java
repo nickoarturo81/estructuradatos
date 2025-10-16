@@ -19,15 +19,18 @@ public class LibraryUI {
                     mostrarMenuGestionUsuarios(users, leer);
                     break;
                 case "3":
-                    mostrarMenuSistemaPrestamos(biblioteca, leer);
+                    mostrarMenuSistemaPrestamos(biblioteca, users, leer);
+                break;
+                case "4":
+                    System.out.println(" Deshacer (no implementado aún.)");
                 break;
                 case "5":
-                    System.out.println(" Saliendo del programa...");
-                    break;
+                    System.out.println("👋 Saliendo del sistema. ¡Hasta luego!");
+                break;
                 default:
                     System.out.println(" ❌ Opción no válida. Intente de nuevo.");
             }
-        } while (!opc.equals("2"));
+        } while (!opc.equals("5"));
         leer.close();                                                                                   // Cerrar el scanner para liberar memoria
     }
 
@@ -89,8 +92,6 @@ public class LibraryUI {
         } while (!opc.equals("6")); {
             System.out.println();
         }
-
-
     }
 
     // 1: Metodo para añadir un libro a partir del metodo anadirLibro de la clase Library
@@ -141,7 +142,7 @@ public class LibraryUI {
         }
     }
 
-    // 5. Método para mostrar todos los libros a partir del metodo getTodosLibros de la clase Library
+    // 3. Método para mostrar todos los libros a partir del metodo getTodosLibros de la clase Library
     public static void mostrarTodosLibros(Library biblioteca) {
         System.out.println();
         System.out.println("╔═══════════════════════════════╗");
@@ -160,7 +161,7 @@ public class LibraryUI {
         }
     }
 
-    // 6. Método para mostrar solo los libros disponibles a partir del metodo getLibrosDisponibles de la clase Library
+    // 4. Método para mostrar solo los libros disponibles a partir del metodo getLibrosDisponibles de la clase Library
     public static void mostrarLibrosDisponibles(Library biblioteca) {
         System.out.println();
         System.out.println("╔═══════════════════════════════╗");
@@ -179,7 +180,7 @@ public class LibraryUI {
         }
     }  
 
-    // 7. Metodo para buscar un libro a partir del metodo buscarTitulo de la clase Library
+    // 5. Metodo para buscar un libro a partir del metodo buscarTitulo de la clase Library
     public static void buscarLibroMenu(Library biblioteca, Scanner leer) {
         System.out.print("Ingrese el título del libro a buscar: ");
         String titulo = leer.nextLine();
@@ -196,7 +197,7 @@ public class LibraryUI {
             System.out.println(" 🔎❌ Libro con título '" + titulo + "' no encontrado.");
             System.out.println("=============================================================");                 // <-- Si no, el libro es nulo, es decir, que no hay datos
         }
-    }
+    } // -> Cambiar que se busque por ISBN en vez de título!!!!!
 
     //Metodo para mostrar el menu de gestion de usuarios
     public static void mostrarMenuGestionUsuarios(Users users, Scanner leer) {
@@ -241,9 +242,8 @@ public class LibraryUI {
                 default:
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
-        } while (!opc.equals("7")); {
+        } while (!opc.equals("7"));
             System.out.println("");
-        }
     }
 
     //Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
@@ -322,7 +322,7 @@ public class LibraryUI {
 
 
     //Metodo para mostrar el menú de sistema de prestamos
-    public static void mostrarMenuSistemaPrestamos(Library biblioteca, Scanner leer){
+    public static void mostrarMenuSistemaPrestamos(Library biblioteca, Users users, Scanner leer){
         String opc;
         do{
             System.out.println();
@@ -338,7 +338,7 @@ public class LibraryUI {
             opc = leer.nextLine();
             switch (opc) {
                 case "1":
-                    prestarLibroMenu(biblioteca, leer);
+                    prestarLibroMenu(biblioteca, users, leer);
                 break;
                 case "2":
                     regresarLibroMenu(biblioteca, leer);
@@ -357,40 +357,78 @@ public class LibraryUI {
         }
     }
 
-    // 1: Método para prestar un libro a partir del método prestarLibro de la clase Library
-    public static void prestarLibroMenu(Library biblioteca, Scanner leer) {
-        //Validar si hay libros registrados
-        if (biblioteca.getTodosLibros().isEmpty()) {
-            System.out.println();
-            System.out.println("=================================================================");
-            System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
-            System.out.println("=================================================================");
-            return;
-        }
+    // 1. Método para prestar un libro a un usuario específico
+    public static void prestarLibroMenu(Library biblioteca, Users users, Scanner leer) {
+    // Validar si hay libros registrados
+    if (biblioteca.getTodosLibros().isEmpty()) {
         System.out.println();
+        System.out.println("=================================================================");
+        System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
+        System.out.println("=================================================================");
+        return;
+    }
+    // Validar si hay usuarios registrados
+    if (users.getTodosUsuarios().isEmpty()) {
         System.out.println();
-        System.out.print("Ingrese el ISBN del libro a prestar: ");
-        String isbn = leer.nextLine();
+        System.out.println("=================================================================");
+        System.out.println(" 🚫 No hay usuarios registrados para asignar el préstamo.");
+        System.out.println("=================================================================");
+        return;
+    }
+    //Inicio del proceso de préstamo
+    System.out.println();
+    System.out.print("Ingrese el ID del usuario que realizará el préstamo: ");
+    String idUsuario = leer.nextLine();
 
-        String resultado = biblioteca.prestarLibro(isbn);
-
-        if (resultado == null) {
-            System.out.println();
-            System.out.println("===================================================");
-            System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
-            System.out.println("===================================================");
-        } else if (resultado.equals("")) {
-            System.out.println();
-            System.out.println("===================================================================");
-            System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.");
-            System.out.println("===================================================================");
-        } else {
-            System.out.println();
-            System.out.println("====================================");
-            System.out.println(" ✅ Libro prestado: " + resultado);
-            System.out.println("====================================");
+    // Buscar el usuario
+    User usuario = null;
+    for (int i = 0; i < users.getTodosUsuarios().size(); i++) {
+    User u = users.getTodosUsuarios().get(i);
+        if (u.getIdUsuario().equals(idUsuario)) {
+            usuario = u;
+            break;
         }
     }
+
+    System.out.println();
+    System.out.print("Ingrese el ISBN del libro a prestar: ");
+    String isbn = leer.nextLine();
+
+    // Verificar si el libro existe y está disponible
+    String tituloPrestado = biblioteca.prestarLibro(isbn);
+
+    if (tituloPrestado == null) {
+        System.out.println();
+        System.out.println("===================================================");
+        System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
+        System.out.println("===================================================");
+        return;
+    } else if (tituloPrestado.equals("")) {
+        System.out.println();
+        System.out.println("========================================================================");
+        System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.  ");
+        System.out.println("========================================================================");
+        return;
+    }
+
+    // Pedir la fecha del préstamo
+    System.out.println();
+    System.out.print("Ingrese la fecha del préstamo (formato DD/MM/AAAA): ");
+    String fechaPrestamo = leer.nextLine();
+
+    // Crear el préstamo y asignarlo al usuario
+    Prestamo nuevoPrestamo = new Prestamo(isbn, tituloPrestado, idUsuario, fechaPrestamo);
+    usuario.getHistorialPrestamos().add(nuevoPrestamo);
+
+    System.out.println();
+    System.out.println("====================================");
+    System.out.println(" ✅ Libro prestado correctamente");
+    System.out.println(" Usuario: " + usuario.getNombre() + " " + usuario.getApellido());
+    System.out.println(" Libro: " + tituloPrestado);
+    System.out.println(" Fecha de préstamo: " + fechaPrestamo);
+    System.out.println("====================================");
+}
+
 
     // 2: Método para regresar un libro a partir del método regresarLibro de la clase Library
     public static void regresarLibroMenu(Library biblioteca, Scanner leer) {

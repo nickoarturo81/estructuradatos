@@ -17,7 +17,7 @@ public class LibraryUI {
                     mostrarMenuGestionLibros(biblioteca, leer);
                     break;
                 case "2":
-                    mostrarMenuGestionUsuarios(users, leer);
+                    mostrarMenuGestionUsuarios(users, biblioteca, leer);
                     break;
                 case "3":
                     mostrarMenuSistemaPrestamos(biblioteca, users, leer);

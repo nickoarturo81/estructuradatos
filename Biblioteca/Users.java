@@ -7,6 +7,7 @@ import java.util.Iterator;
 public class Users {
         
     private ArrayList<User> users;
+    private LinkedList<Prestamo> historialGeneral;
 
     // Constructor
     public Users() {
@@ -35,15 +36,14 @@ public class Users {
         return false; // Si no se encontró el usuario, retorna false
     }
 
-    // Historial de Préstamos
-    public LinkedList<Prestamo> historialDePrestamos(String idUsuario) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            if (user.getIdUsuario().equals(idUsuario)) {
-                return user.getHistorialPrestamos();
-            }
-        }
-        return null; // Usuario no encontrado
+    // Historial General de Préstamos
+    public LinkedList<Prestamo> getHistorialGeneral() {
+        return historialGeneral;
+    }
+
+    // Registrar Préstamo en Historial General
+    public void registrarPrestamo(Prestamo prestamo) {
+        historialGeneral.add(prestamo);
     }
 
     // Mostrar Usuarios con Iterator
@@ -54,5 +54,18 @@ public class Users {
             System.out.println(user);
         }
     }
+
+    // Buscar un usuario por su ID o por nombre
+    public User buscarUsuario(String criterio) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            // Permite buscar por ID o por nombre (ignorando mayúsculas/minúsculas)
+            if (user.getIdUsuario().equalsIgnoreCase(criterio) || user.getNombre().equalsIgnoreCase(criterio)) {
+                return user;
+            }
+        }
+        return null; // No se encontró el usuario
+    }
+
     
 }

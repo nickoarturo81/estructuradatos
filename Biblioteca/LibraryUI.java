@@ -1,6 +1,7 @@
 package Biblioteca;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class LibraryUI {
@@ -200,7 +201,7 @@ public class LibraryUI {
     } // -> Cambiar que se busque por ISBN en vez de título!!!!!
 
     //Metodo para mostrar el menu de gestion de usuarios
-    public static void mostrarMenuGestionUsuarios(Users users, Scanner leer) {
+    public static void mostrarMenuGestionUsuarios(Users users, Library biblioteca, Scanner leer) {
         String opc;
         do{
             System.out.println();
@@ -225,16 +226,16 @@ public class LibraryUI {
                     eliminarUsuarioMenu(users, leer);
                 break;
                 case "3":
-                    historialDePrestamosMenu(users, leer);
+                    historialDePrestamosMenu(users);
                 break;
                 case "4":
                     users.mostrarUsuarios();
                 break;
                 case "5":
-                    System.out.println("Funcionalidad de Buscar Usuario no implementada aún.");
+                    buscarUsuarioMenu(users, leer);
                 break;
                 case "6":
-                    System.out.println("Funcionalidad de Reportes Básicos no implementada aún.");
+                    reportesBasicosMenu(users, biblioteca);
                 break;
                 case "7":
                     System.out.println("↩️ Volviendo al Menú Principal...");
@@ -246,7 +247,7 @@ public class LibraryUI {
             System.out.println("");
     }
 
-    //Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
+    // 1. Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
     public static void anadirUsuarioMenu(Users users, Scanner leer) {
         System.out.println("╔═══════════════════════════╗");
         System.out.println("║       Añadir Usuario      ║");
@@ -278,7 +279,7 @@ public class LibraryUI {
         System.out.println("===================================================================================================================");
     }
 
-    //Metodo para eliminar un usuario a partir del metodo eliminarUsuario de la clase Users
+    // 2. Metodo para eliminar un usuario a partir del metodo eliminarUsuario de la clase Users
     public static void eliminarUsuarioMenu(Users users, Scanner leer) {
         System.out.println();
         System.out.print("Ingrese el ID del usuario a eliminar: ");
@@ -297,29 +298,118 @@ public class LibraryUI {
         }
     }
 
-    // Metodo para el historial de prestamos de un usuario a partir del metodo historialDePrestamos de la clase Users
-    public static void historialDePrestamosMenu(Users users, Scanner leer) {
-        System.out.println();
-        System.out.print("Ingrese el ID del usuario para ver su historial de préstamos: ");
-        String idUsuario = leer.nextLine();
-        LinkedList<Prestamo> historial = users.historialDePrestamos(idUsuario);
+    // 3. Método para mostrar el historial a partir del metodo getHistorialGeneral de la clase Users
+    public static void historialDePrestamosMenu(Users users) {
+    System.out.println();
+    LinkedList<Prestamo> historial = users.getHistorialGeneral();
+
         if (historial != null && !historial.isEmpty()) {
-            System.out.println();
-            System.out.println("╔═══════════════════════════════╗");
-            System.out.println("║     Historial de Préstamos    ║");
-            System.out.println("╚═══════════════════════════════╝");
+        System.out.println();
+        System.out.println("╔═══════════════════════════════════════════════════╗");
+        System.out.println("║           HISTORIAL GENERAL DE PRÉSTAMOS          ║");
+        System.out.println("╚═══════════════════════════════════════════════════╝");
+
             for (int i = 0; i < historial.size(); i++) {
-                Prestamo prestamo = historial.get(i);
-                System.out.println((i + 1) + ". " + prestamo);
+                Prestamo p = historial.get(i);
+                System.out.println("---------------------------------------------------------------");
+                System.out.println("Registro #" + (i + 1));
+                System.out.println("ID Usuario: " + p.getIdUsuario());
+                System.out.println("Título del Libro: " + p.getTituloLibro());
+                System.out.println("Fecha de Préstamo: " + p.getFechaPrestamo());
+                System.out.println("Fecha de Devolución: " +
+                (p.getFechaDevolucion() != null ? p.getFechaDevolucion() : "Pendiente"));
+                System.out.println("Estado: " + p.getEstado());
             }
+
         } else {
             System.out.println();
             System.out.println("==============================================================");
-            System.out.println(" 📚❌ No hay historial de préstamos para el usuario con ID " + idUsuario);
+            System.out.println(" 📚❌ No hay préstamos registrados en el historial general.");
             System.out.println("==============================================================");
         }
     }
 
+    // 4. Metodo para mostrar todos los usuarios a partir del metodo mostrarUsuarios de la clase Users
+    public static void mostrarUsuariosMenu(Users users) {
+        System.out.println();
+        System.out.println("╔═══════════════════════════════════════════╗");
+        System.out.println("║       LISTADO DE USUARIOS REGISTRADOS     ║");
+        System.out.println("╚═══════════════════════════════════════════╝");
+        System.out.println();
+
+        // Obtener todos los usuarios desde la clase Users
+        ArrayList<User> listaUsuarios = users.getTodosUsuarios();
+
+        // Validar si hay usuarios
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("⚠️ No hay usuarios registrados actualmente.");
+            return;
+        }
+
+        // Encabezado de tabla
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("N° | ID Usuario | Nombre | Apellido | Email | Teléfono");
+        System.out.println("-------------------------------------------------------------");
+
+        // Recorrer la lista con un for tradicional
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            User user = listaUsuarios.get(i);
+            System.out.println((i + 1) + ". " + user.getIdUsuario() + " | " + user.getNombre() + " | " + user.getApellido() + " | " + user.getEmail() + " | " 
+            + user.getTelefono());
+        }
+    }
+
+    // 5. Metodo para buscar un usuario a partir del metodo buscarUsuario de la clase Users
+    public static void buscarUsuarioMenu(Users users, Scanner leer) {
+        System.out.println();
+        System.out.println("╔═══════════════════════════════════╗");
+        System.out.println("║           BUSCAR USUARIO          ║");
+        System.out.println("╚═══════════════════════════════════╝");
+        System.out.println();
+        System.out.print("Ingrese el ID o nombre del usuario a buscar: ");
+        String criterio = leer.nextLine();
+
+        User usuarioEncontrado = users.buscarUsuario(criterio);
+
+        if (usuarioEncontrado != null) {
+            System.out.println();
+            System.out.println("====================================");
+            System.out.println("✅ Usuario encontrado:");
+            System.out.println(usuarioEncontrado.toString());
+            System.out.println("====================================");
+        } else {
+            System.out.println();
+            System.out.println("====================================");
+            System.out.println("❌ No se encontró ningún usuario con el criterio: " + criterio);
+            System.out.println("====================================");
+        }
+    }
+
+    // 6. Metodo para mostrar reportes basicos a partir de metodos de las clases Users y Library
+
+    public static void reportesBasicosMenu(Users users, Library biblioteca) {
+        System.out.println();
+        System.out.println("╔═══════════════════════════════════════╗");
+        System.out.println("║           REPORTES BÁSICOS            ║");
+        System.out.println("╚═══════════════════════════════════════╝");
+
+        // 📘 Total de usuarios
+        int totalUsuarios = users.getTodosUsuarios().size();
+        System.out.println("║ 👥 Total de usuarios registrados: " + totalUsuarios);
+
+        // 📚 Total de libros
+        int totalLibros = biblioteca.getTodosLibros().size();
+        int disponibles = biblioteca.getLibrosDisponibles().size();
+        int prestados = totalLibros - disponibles;
+        System.out.println("📚 Total de libros registrados: " + totalLibros);
+        System.out.println("✅ Disponibles: " + disponibles);
+        System.out.println("❌ Prestados: " + prestados);
+
+        // 🧾 Total de préstamos (del historial general)
+        int totalPrestamos = users.getHistorialGeneral().size();
+        System.out.println("🧾 Total de préstamos realizados: " + totalPrestamos);
+
+    }
 
     //Metodo para mostrar el menú de sistema de prestamos
     public static void mostrarMenuSistemaPrestamos(Library biblioteca, Users users, Scanner leer){
@@ -341,7 +431,7 @@ public class LibraryUI {
                     prestarLibroMenu(biblioteca, users, leer);
                 break;
                 case "2":
-                    regresarLibroMenu(biblioteca, leer);
+                    regresarLibroMenu(biblioteca, users, leer);
                 break;
                 case "3":
                     System.out.println("Funcionalidad de Ver Cola de Espera no implementada aún.");
@@ -352,87 +442,97 @@ public class LibraryUI {
                 default:
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
-        } while (!opc.equals("4")); {
-            System.out.println("");
-        }
+        } while (!opc.equals("4"));
     }
 
     // 1. Método para prestar un libro a un usuario específico
     public static void prestarLibroMenu(Library biblioteca, Users users, Scanner leer) {
-    // Validar si hay libros registrados
-    if (biblioteca.getTodosLibros().isEmpty()) {
-        System.out.println();
-        System.out.println("=================================================================");
-        System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
-        System.out.println("=================================================================");
-        return;
-    }
-    // Validar si hay usuarios registrados
-    if (users.getTodosUsuarios().isEmpty()) {
-        System.out.println();
-        System.out.println("=================================================================");
-        System.out.println(" 🚫 No hay usuarios registrados para asignar el préstamo.");
-        System.out.println("=================================================================");
-        return;
-    }
-    //Inicio del proceso de préstamo
-    System.out.println();
-    System.out.print("Ingrese el ID del usuario que realizará el préstamo: ");
-    String idUsuario = leer.nextLine();
 
-    // Buscar el usuario
-    User usuario = null;
-    for (int i = 0; i < users.getTodosUsuarios().size(); i++) {
-    User u = users.getTodosUsuarios().get(i);
-        if (u.getIdUsuario().equals(idUsuario)) {
-            usuario = u;
-            break;
+        // Validar si hay libros registrados
+        if (biblioteca.getTodosLibros().isEmpty()) {
+            System.out.println();
+            System.out.println("=================================================================");
+            System.out.println(" 🚫 No hay ningún libro registrado en la biblioteca para prestar.");
+            System.out.println("=================================================================");
+            return;
         }
-    }
 
-    System.out.println();
-    System.out.print("Ingrese el ISBN del libro a prestar: ");
-    String isbn = leer.nextLine();
+        // Validar si hay usuarios registrados
+        if (users.getTodosUsuarios().isEmpty()) {
+            System.out.println();
+            System.out.println("=================================================================");
+            System.out.println(" 🚫 No hay usuarios registrados para asignar el préstamo.");
+            System.out.println("=================================================================");
+            return;
+        }
 
-    // Verificar si el libro existe y está disponible
-    String tituloPrestado = biblioteca.prestarLibro(isbn);
-
-    if (tituloPrestado == null) {
+        // Inicio del proceso de préstamo
         System.out.println();
-        System.out.println("===================================================");
-        System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
-        System.out.println("===================================================");
-        return;
-    } else if (tituloPrestado.equals("")) {
+        System.out.print("Ingrese el ID del usuario que realizará el préstamo: ");
+        String idUsuario = leer.nextLine();
+
+        // Buscar el usuario
+        User usuario = null;
+        for (User u : users.getTodosUsuarios()) {
+            if (u.getIdUsuario().equals(idUsuario)) {
+                usuario = u;
+                break;
+            }
+        }
+
+        // Validar si el usuario existe
+        if (usuario == null) {
+            System.out.println();
+            System.out.println("=====================================================");
+            System.out.println(" ❌ No se encontró ningún usuario con el ID ingresado.");
+            System.out.println("=====================================================");
+            return;
+        }
+
         System.out.println();
-        System.out.println("========================================================================");
-        System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.  ");
-        System.out.println("========================================================================");
-        return;
+        System.out.print("Ingrese el ISBN del libro a prestar: ");
+        String isbn = leer.nextLine();
+
+        // Verificar si el libro existe y está disponible
+        String tituloPrestado = biblioteca.prestarLibro(isbn);
+
+        if (tituloPrestado == null) {
+            System.out.println();
+            System.out.println("===================================================");
+            System.out.println(" 🔎❌ Libro con ISBN " + isbn + " no fue encontrado.");
+            System.out.println("===================================================");
+            return;
+        } else if (tituloPrestado.equals("")) {
+            System.out.println();
+            System.out.println("========================================================================");
+            System.out.println(" ⚠️ El libro con ISBN " + isbn + " ya está prestado y no está disponible.  ");
+            System.out.println("========================================================================");
+            return;
+        }
+
+        // Pedir la fecha del préstamo
+        System.out.println();
+        System.out.print("Ingrese la fecha del préstamo (formato DD/MM/AAAA): ");
+        String fechaPrestamo = leer.nextLine();
+
+        // Crear el préstamo y asignarlo al usuario
+        Prestamo nuevoPrestamo = new Prestamo(idUsuario, usuario.getNombre(), tituloPrestado, fechaPrestamo, null, "Prestado");
+
+        // Guardar el préstamo en el historial individual del usuario
+        usuario.getHistorialPrestamos().add(nuevoPrestamo);
+
+        System.out.println();
+        System.out.println("====================================");
+        System.out.println(" ✅ Libro prestado correctamente");
+        System.out.println(" Usuario: " + usuario.getNombre() + " " + usuario.getApellido());
+        System.out.println(" Libro: " + tituloPrestado);
+        System.out.println(" Fecha de préstamo: " + fechaPrestamo);
+        System.out.println("====================================");
     }
-
-    // Pedir la fecha del préstamo
-    System.out.println();
-    System.out.print("Ingrese la fecha del préstamo (formato DD/MM/AAAA): ");
-    String fechaPrestamo = leer.nextLine();
-
-    // Crear el préstamo y asignarlo al usuario
-    Prestamo nuevoPrestamo = new Prestamo(isbn, tituloPrestado, idUsuario, fechaPrestamo);
-    usuario.getHistorialPrestamos().add(nuevoPrestamo);
-
-    System.out.println();
-    System.out.println("====================================");
-    System.out.println(" ✅ Libro prestado correctamente");
-    System.out.println(" Usuario: " + usuario.getNombre() + " " + usuario.getApellido());
-    System.out.println(" Libro: " + tituloPrestado);
-    System.out.println(" Fecha de préstamo: " + fechaPrestamo);
-    System.out.println("====================================");
-}
-
 
     // 2: Método para regresar un libro a partir del método regresarLibro de la clase Library
-    public static void regresarLibroMenu(Library biblioteca, Scanner leer) {
-    // Validar si todos los libros están disponibles
+    public static void regresarLibroMenu(Library biblioteca, Users users, Scanner leer) {
+        // Validar si todos los libros están disponibles
         if (biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
             System.out.println(" 📚❌ No hay libros prestados para regresar.");
             return;
@@ -442,21 +542,87 @@ public class LibraryUI {
         System.out.print("Ingrese el ISBN del libro a regresar: ");
         String isbn = leer.nextLine();
 
-        // Usar directamente el método de Library
+        //Buscar el libro por ISBN en la lista de Library
+        Book libroEncontrado = null;
+        for (int i = 0; i < biblioteca.getTodosLibros().size(); i++) {
+            Book b = biblioteca.getTodosLibros().get(i);
+            if (b.getIsbn().equals(isbn)) {
+                libroEncontrado = b;
+                break;
+            }
+        }
+
+        if (libroEncontrado == null) {
+            System.out.println();
+            System.out.println("=============================================");
+            System.out.println(" ❌ No se encontró ningún libro con ese ISBN.");
+            System.out.println("=============================================");
+            return;
+        }
+
+        String tituloLibro = libroEncontrado.getTitulo();
+
+        //Buscar en los historiales individuales de todos los usuarios el préstamo activo de ese título
+        Prestamo prestamoEncontrado = null;
+        User usuarioConPrestamo = null;
+
+        ArrayList<User> listaUsuarios = users.getTodosUsuarios();
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            User u = listaUsuarios.get(i);
+            LinkedList<Prestamo> historial = u.getHistorialPrestamos();
+            for (int j = 0; j < historial.size(); j++) {
+                Prestamo p = historial.get(j);
+                // Compara título (asegúrate de que Prestamo almacene título) y que esté marcado como "Prestado"
+                if (p.getTituloLibro() != null &&
+                    p.getTituloLibro().equalsIgnoreCase(tituloLibro) &&
+                    p.getEstado() != null &&
+                    p.getEstado().equalsIgnoreCase("Prestado")) {
+                    prestamoEncontrado = p;
+                    usuarioConPrestamo = u;
+                    break;
+                }
+            }
+            if (prestamoEncontrado != null) break;
+        }
+
+        if (prestamoEncontrado == null) {
+            System.out.println();
+            System.out.println("=======================================================================================");
+            System.out.println(" ❌ No se encontró ningún préstamo activo de ese libro en los historiales de usuarios.");
+            System.out.println("=======================================================================================");
+            return;
+        }
+
+        // 3) Pedir la fecha de devolución
+        System.out.println();
+        System.out.print("Ingrese la fecha de devolución (formato DD/MM/AAAA): ");
+        String fechaDevolucion = leer.nextLine();
+
+        // 4) Actualizar el objeto Prestamo (fecha y estado)
+        prestamoEncontrado.setFechaDevolucion(fechaDevolucion);
+        prestamoEncontrado.setEstado("Devuelto");
+
+        // 5) Actualizar en Library el estado del libro a disponible
         boolean resultado = biblioteca.regresarLibro(isbn);
 
         if (resultado) {
             System.out.println();
             System.out.println("=================================================");
-            System.out.println(" ✅ Libro con ISBN " + isbn + " regresado con éxito.");
+            System.out.println(" ✅ Libro regresado correctamente");
+            System.out.println(" ISBN: " + isbn);
+            System.out.println(" Usuario que lo tenía: " + usuarioConPrestamo.getNombre() + " " + usuarioConPrestamo.getApellido());
+            System.out.println(" Fecha de entrega: " + fechaDevolucion);
             System.out.println("=================================================");
         } else {
             System.out.println();
             System.out.println("=================================================");
-            System.out.println(" ❌ El libro no existe o ya estaba disponible.");
+            System.out.println(" ❌ El libro no existe o ya estaba disponible (error al actualizar Library).");
             System.out.println("=================================================");
         }
     }
+
+
+
 
     /*
      * para el deshacer, cada proceso que se realice se debe almacenar en una "transaccion" y se almacenara en la pila.

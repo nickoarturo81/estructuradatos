@@ -100,9 +100,8 @@ public class LibraryUI {
                 default:
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
-        } while (!opc.equals("6")); {
-            System.out.println();
-        }
+        } while (!opc.equals("6"));
+        System.out.println();
     }
 
     // 1: Metodo para añadir un libro a partir del metodo anadirLibro de la clase Library
@@ -271,8 +270,9 @@ public class LibraryUI {
                 default:
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
-        } while (!opc.equals("7"));
-            System.out.println("");
+        } while (!opc.equals("7")); 
+        System.out.println();
+        }
     }
 
     // 1. Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
@@ -481,6 +481,7 @@ public class LibraryUI {
                 System.out.println("❌ Opción no válida. Intente de nuevo.");
             }
         } while (!opc.equals("4"));
+        System.out.println();
     }
 
     // 1. Método para prestar un libro a un usuario específico
@@ -757,9 +758,5 @@ public class LibraryUI {
 
     System.out.println("=================================================");
     }
-
-
-    /*
-     * para el deshacer, cada proceso que se realice se debe almacenar en una "transaccion" y se almacenara en la pila.
-     */
+    
 }

@@ -9,7 +9,7 @@ public class User {
     private String apellido;
     private String email;
     private String telefono;
-    private LinkedList<Prestamo> historialPrestamos; // 👈 historial individual
+    private LinkedList<Prestamo> historialPrestamos;
 
     // Constructor
     public User(String idUsuario, String nombre, String apellido, String email, String telefono) {
@@ -43,10 +43,8 @@ public class User {
     public LinkedList<Prestamo> getHistorialPrestamos() {
         return historialPrestamos;
     }
-    //Los getters permiten consultar los atributos de un usuario
 
     //Setters
-    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -60,12 +58,11 @@ public class User {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    //Los setters permiten modificar los atributos de un usuario
 
     @Override
     public String toString() {
-        return String.format(
-            "[ID: %s | Nombre: %s | Apellido: %s | Email: %s | Teléfono: %s]", idUsuario, nombre, apellido, email, telefono);
+        return String.format("[ID: %s | Nombre: %s %s | Email: %s | Teléfono: %s | Préstamos: %d]",
+            idUsuario, nombre, apellido, email, telefono, historialPrestamos.size());
     }
-    //Permitira mostrar la informacion del usuario de forma legible.
+
 }

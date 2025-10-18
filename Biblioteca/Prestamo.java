@@ -4,14 +4,16 @@ public class Prestamo {
     private String idUsuario;
     private String nombreUsuario;
     private String tituloLibro;
+    private String isbnLibro; 
     private String fechaPrestamo;
     private String fechaDevolucion;
     private String estado; // "Prestado" o "Devuelto"
 
-    public Prestamo(String idUsuario, String nombreUsuario, String tituloLibro, String fechaPrestamo, String fechaDevolucion, String estado) {
+    public Prestamo(String idUsuario, String nombreUsuario, String tituloLibro, String isbnLibro, String fechaPrestamo, String fechaDevolucion, String estado) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.tituloLibro = tituloLibro;
+        this.isbnLibro = isbnLibro;
         this.fechaPrestamo = fechaPrestamo;
         this.fechaDevolucion = fechaDevolucion;
         this.estado = estado;
@@ -28,6 +30,10 @@ public class Prestamo {
 
     public String getTituloLibro() {
         return tituloLibro;
+    }
+
+    public String getIsbnLibro() {
+        return isbnLibro;
     }
 
     public String getFechaPrestamo() {
@@ -54,10 +60,12 @@ public class Prestamo {
     @Override
     public String toString() {
         return String.format(
-            " Libro: %s | Usuario: %s | Préstamo: %s | Devolución: %s | Estado: %s", tituloLibro, nombreUsuario, 
-            (fechaPrestamo != null ? fechaPrestamo : "-"), 
-            (fechaDevolucion != null ? fechaDevolucion : "-"), 
+            " Libro: %s (ISBN: %s) | Usuario: %s | Préstamo: %s | Devolución: %s | Estado: %s",
+            tituloLibro, isbnLibro, nombreUsuario,
+            (fechaPrestamo != null ? fechaPrestamo : "-"),
+            (fechaDevolucion != null ? fechaDevolucion : "-"),
             estado
         );
     }
+
 }

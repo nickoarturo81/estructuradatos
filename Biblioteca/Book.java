@@ -39,7 +39,7 @@ public class Book {
         return disponible;
     }
 
-    public Queue<String> getColaEspera() {
+     public Queue<String> getColaEspera() {
         return colaEspera;
     }
 
@@ -54,29 +54,17 @@ public class Book {
     public boolean hayUsuariosEnEspera() {
         return !colaEspera.isEmpty();
     }
-    //Los getters permiten consultar los atributos de un libro
 
     // Setters
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
-    //Los setters permiten modificar los atributos de un libro
-
-    @Override
+  
+   @Override
     public String toString() {
-        return String.format("Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s]", titulo, autor, isbn, disponible ? "Sí" : "No");
+        return String.format(
+            "Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s | En cola: %d]",
+            titulo, autor, isbn, disponible ? "Sí" : "No", colaEspera.size()
+        );
     }
-    //Permitira mostrar la informacion del libro de forma legible.
 }

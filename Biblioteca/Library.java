@@ -1,6 +1,7 @@
 package Biblioteca;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class Library {
     private ArrayList<Book> libros;                                           
@@ -22,13 +23,13 @@ public class Library {
         return false;                                                       
     }
 
-    // Metodo para buscar un libro por su titulo
-    public Book buscarTitulo(String titulo) {
+    // Método para buscar un libro por su ISBN
+    public Book buscarLibroPorISBN(String isbn) {
         for (int i = 0; i < libros.size(); i++) {
             Book libro = libros.get(i);
-            if (libro.getTitulo().equalsIgnoreCase(titulo)) {                
-            return libro;
-         }
+            if (libro.getIsbn().equalsIgnoreCase(isbn)) {
+                return libro;
+            }
         }
         return null;
     }
@@ -64,44 +65,61 @@ public class Library {
     }
 
     // Metodo para prestar un libro por su ISBN
-    public String prestarLibro(String isbn, String nombreUsuario) {
-        for (int i = 0; i < libros.size(); i++) {
-            Book libro = libros.get(i);
-            if (libro.getIsbn().equalsIgnoreCase(isbn)) {
-                if (libro.isDisponible()) {
-                    libro.setDisponible(false);
-                    return libro.getTitulo(); // Préstamo exitoso
+    public String prestarLibro(String isbn, String idUsuario) {
+    for (int i = 0; i < libros.size(); i++) {
+        Book libro = libros.get(i);
+
+        if (libro.getIsbn().equalsIgnoreCase(isbn)) {
+            if (libro.isDisponible()) {
+                libro.setDisponible(false);
+                return "PRESTADO";
+            } else {
+                // Validar que el usuario no esté ya en la cola
+                if (!libro.getColaEspera().contains(idUsuario)) {
+                    libro.agregarACola(idUsuario);
+                    return "AGREGADO_A_COLA";
                 } else {
-                    // Libro no disponible → agregar a lista de espera
-                    libro.agregarACola(nombreUsuario);
-                    return ""; // Indica que fue agregado a espera
+                    return "YA_EN_COLA";
                 }
             }
         }
-        return null; // No existe el libro
+    }
+    return "NO_ENCONTRADO";
     }
 
+
     // Metodo para regresar un libro por su ISBN
-    public boolean regresarLibro(String isbn) {
-        for (int i = 0; i < libros.size(); i++) {
-            Book libro = libros.get(i);
-            if (libro.getIsbn().equalsIgnoreCase(isbn)) {
-                if (libro.isDisponible()) {
-                    return false; // Ya estaba disponible
-                }
+    public String regresarLibro(String isbn) {
+    for (int i = 0; i < libros.size(); i++) {
+        Book libro = libros.get(i);
 
-                libro.setDisponible(true);
-
-                // Si hay alguien en la lista de espera, se le asigna automáticamente
-                if (libro.hayUsuariosEnEspera()) {
-                    String siguiente = libro.siguienteEnCola();
-                    libro.setDisponible(false); // Se vuelve a marcar como prestado
-                    // Aquí NO imprimimos nada, solo devolvemos true
-                    // El mensaje se mostrará en el menú
-                }
-                return true;
+        if (libro.getIsbn().equalsIgnoreCase(isbn)) {
+            if (libro.isDisponible()) {
+                return "YA_DISPONIBLE";
             }
+
+            libro.setDisponible(true);
+
+            if (libro.hayUsuariosEnEspera()) {
+                String siguienteUsuario = libro.siguienteEnCola();
+                libro.setDisponible(false); // se vuelve a marcar como prestado
+                return "ASIGNADO_A_" + siguienteUsuario;
+            }
+
+            return "DISPONIBLE";
         }
-        return false;
+    }
+    return "NO_ENCONTRADO";
+    }
+
+    public Queue<String> obtenerColaDeEspera(String isbn) {
+    for (int i = 0; i < libros.size(); i++) {
+        Book libro = libros.get(i);
+
+        if (libro.getIsbn().equalsIgnoreCase(isbn)) {
+            return libro.getColaEspera();
+        }
+    }
+    return null;
     }
 }

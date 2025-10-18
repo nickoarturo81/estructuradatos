@@ -5,18 +5,20 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 public class Users {
-        
+
     private ArrayList<User> users;
     private LinkedList<Prestamo> historialGeneral;
 
     // Constructor
     public Users() {
-    this.users = new ArrayList<>();
+        this.users = new ArrayList<>();
+        this.historialGeneral = new LinkedList<>(); 
     }
 
-    // Método para obtener todos los usuarios como ArrayList
+
+    // Método para obtener todos los usuarios
     public ArrayList<User> getTodosUsuarios() {
-    return this.users;
+        return this.users;
     }
 
     // Añadir Usuario
@@ -26,13 +28,13 @@ public class Users {
 
     // Eliminar Usuario (versión tradicional con for)
     public boolean eliminarUsuario(String idUsuario) {
-    for (int i = 0; i < users.size(); i++) { // Recorre toda la lista de usuarios
-        User user = users.get(i);            // Obtiene el usuario en la posición actual
-        if (user.getIdUsuario().equalsIgnoreCase(idUsuario)) { // Compara el ID
-            users.remove(i);                        // Elimina el usuario por su posición
-            return true;                            // Retorna true si se eliminó
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.getIdUsuario().equalsIgnoreCase(idUsuario)) {
+                users.remove(i);
+                return true;
+            }
         }
-    }
         return false; // Si no se encontró el usuario, retorna false
     }
 
@@ -66,6 +68,4 @@ public class Users {
         }
         return null; // No se encontró el usuario
     }
-
-    
 }

@@ -1,6 +1,7 @@
 package Biblioteca;
 
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -10,12 +11,14 @@ public class LibraryUI {
         Scanner leer = new Scanner(System.in);
         Library biblioteca = new Library(50);
         Users users = new Users();
+        Stack<Transaction> pilaTransacciones = new Stack<>();
+
         String opc;
         do {
             opc = mostrarMenuPrincipal(leer);
             switch (opc) {
                 case "1":
-                    mostrarMenuGestionLibros(biblioteca, leer);
+                    mostrarMenuGestionLibros(biblioteca, leer, pilaTransacciones);
                     break;
                 case "2":
                     mostrarMenuGestionUsuarios(users, biblioteca, leer);
@@ -24,8 +27,14 @@ public class LibraryUI {
                     mostrarMenuSistemaPrestamos(biblioteca, users, leer);
                 break;
                 case "4":
-                    System.out.println(" Deshacer (no implementado aún.)");
-                break;
+                    if (!pilaTransacciones.isEmpty()) {
+                        Transaction ultimaAccion = pilaTransacciones.pop();
+                        ultimaAccion.undo(biblioteca, users); // Deshacer la última acción
+                        System.out.println("✅ Última acción deshecha correctamente.");
+                    } else {
+                        System.out.println("⚠️ No hay acciones para deshacer.");
+                    }
+                    break;
                 case "5":
                     System.out.println("👋 Saliendo del sistema. ¡Hasta luego!");
                 break;
@@ -52,7 +61,7 @@ public class LibraryUI {
     }
 
     //Metodo para mostrar el menu de gestion de libros
-    public static void mostrarMenuGestionLibros(Library biblioteca, Scanner leer){
+    public static void mostrarMenuGestionLibros(Library biblioteca, Scanner leer, Stack<Transaction> pilaTransacciones){
         String opc;
         do{
             System.out.println();
@@ -71,10 +80,10 @@ public class LibraryUI {
             opc = leer.nextLine();
             switch (opc) {
                 case "1":
-                    anadirLibroMenu(biblioteca, leer);
+                    anadirLibroMenu(biblioteca, leer, pilaTransacciones);
                 break;
                 case "2":
-                    eliminarLibroMenu(biblioteca, leer);
+                    eliminarLibroMenu(biblioteca, leer, pilaTransacciones);
                 break;
                 case "3":
                     mostrarTodosLibros(biblioteca);
@@ -97,7 +106,7 @@ public class LibraryUI {
     }
 
     // 1: Metodo para añadir un libro a partir del metodo anadirLibro de la clase Library
-    public static void anadirLibroMenu(Library biblioteca, Scanner leer) {
+    public static void anadirLibroMenu(Library biblioteca, Scanner leer, Stack<Transaction> pilaTransacciones) {
         System.out.println();
         System.out.print("Ingrese el título del libro: ");
         String titulo = leer.nextLine();
@@ -115,6 +124,11 @@ public class LibraryUI {
             System.out.println("===================================================================================================================");
             System.out.println("  ✅ Libro añadido: " + libro);
             System.out.println("===================================================================================================================");
+
+            //Proceso Pila
+            Transaction transaccion = new Transaction(Transaction.Tipo.AÑADIR_LIBRO, libro);
+            pilaTransacciones.push(transaccion);
+
         } else {
             System.out.println();
             System.out.println("==============================================================");
@@ -124,7 +138,7 @@ public class LibraryUI {
     }
 
     // 2: Método para eliminar un libro a partir del método eliminarLibro de la clase Library
-    public static void eliminarLibroMenu(Library biblioteca, Scanner leer) {
+    public static void eliminarLibroMenu(Library biblioteca, Scanner leer, Stack<Transaction> pilaTransacciones) {
         System.out.println();
         System.out.print("Ingrese el ISBN del libro a eliminar: ");
         String isbn = leer.nextLine();
@@ -136,6 +150,11 @@ public class LibraryUI {
             System.out.println("================================================================================================");
             System.out.println(" 🗑️ Libro eliminado: " + tituloEliminado + " Total libros: " + biblioteca.getTodosLibros().size() + ")");
             System.out.println("================================================================================================");
+
+            Book libroEliminado = new Book(tituloEliminado, "", isbn, true);
+            Transaction transaccion = new Transaction(Transaction.Tipo.ELIMINAR_LIBRO, libroEliminado);
+            pilaTransacciones.push(transaccion);
+
         } else {
             System.out.println();
             System.out.println("===============================================");

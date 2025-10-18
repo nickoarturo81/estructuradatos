@@ -16,17 +16,17 @@ public class Users {
     }
 
 
-    // Método para obtener todos los usuarios
+    //Método para obtener todos los usuarios
     public ArrayList<User> getTodosUsuarios() {
         return this.users;
     }
 
-    // Añadir Usuario
+    //Método para Añadir Usuario
     public void anadirUsuario(User user) {
         users.add(user);
     }
 
-    // Eliminar Usuario (versión tradicional con for)
+    //Método para Eliminar Usuario
     public boolean eliminarUsuario(String idUsuario) {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
@@ -35,20 +35,27 @@ public class Users {
                 return true;
             }
         }
-        return false; // Si no se encontró el usuario, retorna false
+        return false;
     }
 
-    // Historial General de Préstamos
+    //Metodo para restaurar un usuario
+    public boolean restaurarUsuario(User user) {
+        if (user == null) return false;
+        users.add(user);
+        return true;
+    }
+
+    //Historial General de Préstamos
     public LinkedList<Prestamo> getHistorialGeneral() {
         return historialGeneral;
     }
 
-    // Registrar Préstamo en Historial General
+    //Registrar Préstamo en Historial General
     public void registrarPrestamo(Prestamo prestamo) {
         historialGeneral.add(prestamo);
     }
 
-    // Mostrar Usuarios con Iterator
+    //Mostrar Usuarios con Iterator
     public void mostrarUsuarios() {
         Iterator<User> it = users.iterator();
         while (it.hasNext()) {
@@ -57,7 +64,7 @@ public class Users {
         }
     }
 
-    // Buscar un usuario por su ID o por nombre
+    //Buscar un usuario por su ID o por nombre
     public User buscarUsuario(String criterio) {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);

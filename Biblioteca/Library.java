@@ -34,7 +34,6 @@ public class Library {
         return null;
     }
 
-
     // Metodo para eliminar un libro de la biblioteca
     public String eliminarLibro(String isbn) {
         for (int i = 0; i < libros.size(); i++) {
@@ -47,12 +46,22 @@ public class Library {
         return null;                                                                     
     }
 
-    // Metodo para mostrar todos los libros de la biblioteca
+    //Metodo para restaurar un libro a la biblioteca
+    public boolean restaurarLibro(Book libro) {
+        if (libro == null) return false;
+        if (libros.size() < capacidadMaxima) {
+            libros.add(libro);
+            return true;
+        }
+        return false;
+    }
+
+    //Metodo para mostrar todos los libros de la biblioteca
     public ArrayList<Book> getTodosLibros() {
         return new ArrayList<>(libros);                                      
     }
 
-    // Metodo para mostrar solo los libros disponibles
+    //Metodo para mostrar solo los libros disponibles
     public ArrayList<Book> getLibrosDisponibles() {                             
         ArrayList<Book> disponibles = new ArrayList<>();                     
         for (int i = 0; i < libros.size(); i++) {
@@ -64,7 +73,7 @@ public class Library {
         return disponibles;                                                  
     }
 
-    // Metodo para prestar un libro por su ISBN
+    //Metodo para prestar un libro por su ISBN
     public String prestarLibro(String isbn, String idUsuario) {
     for (int i = 0; i < libros.size(); i++) {
         Book libro = libros.get(i);
@@ -87,8 +96,19 @@ public class Library {
     return "NO_ENCONTRADO";
     }
 
+    //Metodo para deshacer el prestamo de un libro por su ISBN
+    public boolean deshacerPrestamo(String isbn) {
+        Book libro = buscarLibroPorISBN(isbn);
+        if (libro != null) {
+            libro.setDisponible(true);
+            //Si hay usuarios en cola, se mantiene la cola intacta; la lógica de reasignación se maneja en el main
+            return true;
+        }
+        return false;
+    }
 
-    // Metodo para regresar un libro por su ISBN
+
+    //Metodo para regresar un libro por su ISBN
     public String regresarLibro(String isbn) {
     for (int i = 0; i < libros.size(); i++) {
         Book libro = libros.get(i);
@@ -112,6 +132,7 @@ public class Library {
     return "NO_ENCONTRADO";
     }
 
+    //Metodo para obtener la cola de espera de un libro por su ISBN
     public Queue<String> obtenerColaDeEspera(String isbn) {
     for (int i = 0; i < libros.size(); i++) {
         Book libro = libros.get(i);

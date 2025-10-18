@@ -434,7 +434,7 @@ public class LibraryUI {
                     regresarLibroMenu(biblioteca, users, leer);
                 break;
                 case "3":
-                    System.out.println("Funcionalidad de Ver Cola de Espera no implementada aún.");
+                    mostrarColaDeEspera(biblioteca, leer);
                 break;
                 case "4":
                     System.out.println("↩️ Volviendo al Menú Principal...");

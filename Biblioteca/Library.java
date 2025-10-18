@@ -64,31 +64,44 @@ public class Library {
     }
 
     // Metodo para prestar un libro por su ISBN
-    public String prestarLibro(String isbn) {
-        for (Book libro : libros) {                                          
-            if (libro.getIsbn().equals(isbn)) {                                 
-                if (libro.isDisponible()) {                                  
-                    libro.setDisponible(false);                   
-                    return libro.getTitulo();                                
+    public String prestarLibro(String isbn, String nombreUsuario) {
+        for (int i = 0; i < libros.size(); i++) {
+            Book libro = libros.get(i);
+            if (libro.getIsbn().equalsIgnoreCase(isbn)) {
+                if (libro.isDisponible()) {
+                    libro.setDisponible(false);
+                    return libro.getTitulo(); // Préstamo exitoso
                 } else {
-                return "";
+                    // Libro no disponible → agregar a lista de espera
+                    libro.agregarACola(nombreUsuario);
+                    return ""; // Indica que fue agregado a espera
                 }
             }
         }
-        return null;                                                         
+        return null; // No existe el libro
     }
 
     // Metodo para regresar un libro por su ISBN
     public boolean regresarLibro(String isbn) {
-        for (int i = 0; i < libros.size(); i++) {                            
-            if (libros.get(i).getIsbn().equals(isbn)) {                      
-                if (libros.get(i).isDisponible()) {                          
-                    return false;                                            
+        for (int i = 0; i < libros.size(); i++) {
+            Book libro = libros.get(i);
+            if (libro.getIsbn().equalsIgnoreCase(isbn)) {
+                if (libro.isDisponible()) {
+                    return false; // Ya estaba disponible
                 }
-                libros.get(i).setDisponible(true);               
+
+                libro.setDisponible(true);
+
+                // Si hay alguien en la lista de espera, se le asigna automáticamente
+                if (libro.hayUsuariosEnEspera()) {
+                    String siguiente = libro.siguienteEnCola();
+                    libro.setDisponible(false); // Se vuelve a marcar como prestado
+                    // Aquí NO imprimimos nada, solo devolvemos true
+                    // El mensaje se mostrará en el menú
+                }
                 return true;
             }
         }
-        return false;                                                        
+        return false;
     }
 }

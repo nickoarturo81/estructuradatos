@@ -494,7 +494,7 @@ public class LibraryUI {
         String isbn = leer.nextLine();
 
         // Verificar si el libro existe y está disponible
-        String tituloPrestado = biblioteca.prestarLibro(isbn);
+        String tituloPrestado = biblioteca.prestarLibro(isbn, usuario.getNombre());
 
         if (tituloPrestado == null) {
             System.out.println();
@@ -621,7 +621,52 @@ public class LibraryUI {
         }
     }
 
+    // 3. Método para mostrar la cola de espera de un libro específico
+    public static void mostrarColaDeEspera(Library biblioteca, Scanner leer) {
+        System.out.println();
+        System.out.print("Ingrese el ISBN del libro para ver su cola de espera: ");
+        String isbn = leer.nextLine();
 
+        // Buscar el libro en la biblioteca
+        Book libro = biblioteca.buscarLibroPorISBN(isbn);
+
+        if (libro == null) {
+            System.out.println();
+            System.out.println("=================================================");
+            System.out.println(" ❌ No se encontró ningún libro con ese ISBN.");
+            System.out.println("=================================================");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("=================================================");
+        System.out.println(" 📚 Libro: " + libro.getTitulo());
+        System.out.println(" ISBN: " + libro.getIsbn());
+        System.out.println("-------------------------------------------------");
+
+        // Validar si la cola de espera está vacía
+        try {
+            // Accedemos por reflexión o método público (si lo tienes en Book)
+            java.lang.reflect.Field colaField = libro.getClass().getDeclaredField("listaEspera");
+            colaField.setAccessible(true);
+            java.util.Queue<String> cola = (java.util.Queue<String>) colaField.get(libro);
+
+            if (cola.isEmpty()) {
+                System.out.println(" 🟢 No hay usuarios en la cola de espera.");
+            } else {
+                System.out.println(" 👥 Usuarios en cola de espera (orden FIFO):");
+                int posicion = 1;
+                for (String nombre : cola) {
+                    System.out.println("  " + posicion + ". " + nombre);
+                    posicion++;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(" ⚠️ Error al acceder a la lista de espera del libro.");
+        }
+
+        System.out.println("=================================================");
+    }
 
 
     /*

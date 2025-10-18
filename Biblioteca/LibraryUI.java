@@ -21,10 +21,10 @@ public class LibraryUI {
                     mostrarMenuGestionLibros(biblioteca, leer, pilaTransacciones);
                     break;
                 case "2":
-                    mostrarMenuGestionUsuarios(users, biblioteca, leer);
+                    mostrarMenuGestionUsuarios(users, biblioteca, leer, pilaTransacciones);
                     break;
                 case "3":
-                    mostrarMenuSistemaPrestamos(biblioteca, users, leer);
+                    mostrarMenuSistemaPrestamos(biblioteca, users, leer, pilaTransacciones);
                 break;
                 case "4":
                     if (!pilaTransacciones.isEmpty()) {
@@ -229,7 +229,7 @@ public class LibraryUI {
 
 
     //Metodo para mostrar el menu de gestion de usuarios
-    public static void mostrarMenuGestionUsuarios(Users users, Library biblioteca, Scanner leer) {
+    public static void mostrarMenuGestionUsuarios(Users users, Library biblioteca, Scanner leer, Stack<Transaction> pilaTransacciones){ {
         String opc;
         do{
             System.out.println();
@@ -248,10 +248,10 @@ public class LibraryUI {
             opc = leer.nextLine();
             switch (opc) {
                 case "1":
-                    anadirUsuarioMenu(users, leer);
+                    anadirUsuarioMenu(users, leer, pilaTransacciones);
                 break;
                 case "2":
-                    eliminarUsuarioMenu(users, leer);
+                    eliminarUsuarioMenu(users, leer, pilaTransacciones);
                 break;
                 case "3":
                     historialDePrestamosMenu(users);
@@ -276,7 +276,7 @@ public class LibraryUI {
     }
 
     // 1. Metodo para añadir un usuario a partir del metodo anadirUsuario de la clase Users
-    public static void anadirUsuarioMenu(Users users, Scanner leer) {
+    public static void anadirUsuarioMenu(Users users, Scanner leer, Stack<Transaction> pilaTransacciones) {
         System.out.println("╔═══════════════════════════╗");
         System.out.println("║       Añadir Usuario      ║");
         System.out.println("╚═══════════════════════════╝");
@@ -299,6 +299,10 @@ public class LibraryUI {
         // Crear el objeto User
         User nuevoUsuario = new User(idUsuario, nombre, apellido, email, telefono);
 
+        //Proceso Pila
+        Transaction transaccion = new Transaction(Transaction.Tipo.AÑADIR_USUARIO, nuevoUsuario);
+        pilaTransacciones.push(transaccion); // ← Guardamos en la pila
+
         //Usamos el método anadirUsuario() de la clase Users
         users.anadirUsuario(nuevoUsuario);
         System.out.println();
@@ -308,12 +312,17 @@ public class LibraryUI {
     }
 
     // 2. Metodo para eliminar un usuario a partir del metodo eliminarUsuario de la clase Users
-    public static void eliminarUsuarioMenu(Users users, Scanner leer) {
+    public static void eliminarUsuarioMenu(Users users, Scanner leer, Stack<Transaction> pilaTransacciones) {
         System.out.println();
         System.out.print("Ingrese el ID del usuario a eliminar: ");
         String idUsuario = leer.nextLine();
-        boolean eliminado = users.eliminarUsuario(idUsuario);
-        if (eliminado) {
+        User usuarioAEliminar = users.buscarUsuario(idUsuario);
+        if (usuarioAEliminar != null) {
+
+            //Proceso Pila - Guardar el usuario eliminado
+            Transaction transaccion = new Transaction(Transaction.Tipo.ELIMINAR_USUARIO, usuarioAEliminar);
+            pilaTransacciones.push(transaccion);
+
             System.out.println();
             System.out.println("==============================================================");
             System.out.println(" ✅ Usuario con ID " + idUsuario + " eliminado con éxito.");
@@ -441,7 +450,7 @@ public class LibraryUI {
     }
 
     //Metodo para mostrar el menú de sistema de prestamos
-    public static void mostrarMenuSistemaPrestamos(Library biblioteca, Users users, Scanner leer){
+    public static void mostrarMenuSistemaPrestamos(Library biblioteca, Users users, Scanner leer, Stack<Transaction> pilaTransacciones) {
         String opc;
         do{
             System.out.println();
@@ -457,10 +466,10 @@ public class LibraryUI {
             opc = leer.nextLine();
             switch (opc) {
                 case "1":
-                    prestarLibroMenu(biblioteca, users, leer);
+                    prestarLibroMenu(biblioteca, users, leer, pilaTransacciones);
                 break;
                 case "2":
-                    regresarLibroMenu(biblioteca, users, leer);
+                    regresarLibroMenu(biblioteca, users, leer, pilaTransacciones);
                 break;
                 case "3":
                     mostrarColaDeEspera(biblioteca, leer);
@@ -475,7 +484,7 @@ public class LibraryUI {
     }
 
     // 1. Método para prestar un libro a un usuario específico
-    public static void prestarLibroMenu(Library biblioteca, Users users, Scanner leer) {
+    public static void prestarLibroMenu(Library biblioteca, Users users, Scanner leer, Stack<Transaction> pilaTransacciones) {
 
         // Validar si hay libros registrados
         if (biblioteca.getTodosLibros().isEmpty()) {
@@ -551,6 +560,9 @@ public class LibraryUI {
         // Guardar el préstamo en el historial individual del usuario
         usuario.getHistorialPrestamos().add(nuevoPrestamo);
 
+        Transaction transaccion = new Transaction(Transaction.Tipo.PRESTAR_LIBRO, nuevoPrestamo);
+        pilaTransacciones.push(transaccion);
+
         System.out.println();
         System.out.println("====================================");
         System.out.println(" ✅ Libro prestado correctamente");
@@ -561,7 +573,7 @@ public class LibraryUI {
     }
 
     // 2: Método para regresar un libro a partir del método regresarLibro de la clase Library
-    public static void regresarLibroMenu(Library biblioteca, Users users, Scanner leer) {
+    public static void regresarLibroMenu(Library biblioteca, Users users, Scanner leer, Stack<Transaction> pilaTransacciones) {
     System.out.println();
 
     // Validar si hay libros registrados y si hay prestados
@@ -622,6 +634,9 @@ public class LibraryUI {
     System.out.println();
     System.out.print("Ingrese la fecha de devolución (formato DD/MM/AAAA): ");
     String fechaDevolucion = leer.nextLine().trim();
+
+    Transaction transaccion = new Transaction(Transaction.Tipo.REGRESAR_LIBRO, prestamoEncontrado);
+    pilaTransacciones.push(transaccion);
 
     // Actualizar el objeto Prestamo (fecha y estado)
     prestamoEncontrado.setFechaDevolucion(fechaDevolucion);

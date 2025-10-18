@@ -42,7 +42,7 @@ public class LibraryUI {
                     System.out.println(" ❌ Opción no válida. Intente de nuevo.");
             }
         } while (!opc.equals("5"));
-        leer.close();                                                                                   // Cerrar el scanner para liberar memoria
+        leer.close();// Cerrar el scanner para liberar memoria
     }
 
     //Método para mostrar el menu principal.
@@ -424,7 +424,6 @@ public class LibraryUI {
     }
 
     // 6. Metodo para mostrar reportes basicos a partir de metodos de las clases Users y Library
-
     public static void reportesBasicosMenu(Users users, Library biblioteca) {
         System.out.println();
         System.out.println("╔═══════════════════════════════════════╗");
@@ -577,7 +576,7 @@ public class LibraryUI {
     public static void regresarLibroMenu(Library biblioteca, Users users, Scanner leer, Stack<Transaction> pilaTransacciones) {
     System.out.println();
 
-    // Validar si hay libros registrados y si hay prestados
+    //Validar si hay libros registrados y si hay prestados
     if (biblioteca.getLibrosDisponibles().isEmpty() ||
     biblioteca.getLibrosDisponibles().size() == biblioteca.getTodosLibros().size()) {
         System.out.println(" 📚❌ No hay libros prestados para regresar.");
@@ -587,7 +586,7 @@ public class LibraryUI {
     System.out.print("Ingrese el ISBN del libro a regresar: ");
     String isbn = leer.nextLine().trim();
 
-    // Buscar el libro por ISBN en Library
+    //Buscar el libro por ISBN en Library
     Book libroEncontrado = biblioteca.buscarLibroPorISBN(isbn);
     if (libroEncontrado == null) {
         System.out.println();
@@ -597,7 +596,7 @@ public class LibraryUI {
         return;
     }
 
-    // Buscar el préstamo activo asociado a ese ISBN en los historiales de usuarios
+    //Buscar el préstamo activo asociado a ese ISBN en los historiales de usuarios
     Prestamo prestamoEncontrado = null;
     User usuarioConPrestamo = null;
 
@@ -682,15 +681,10 @@ public class LibraryUI {
             }
         }
 
-        // Si encontramos al usuario siguiente, creamos y registramos el nuevo Prestamo en su historial
+        //Si encontramos al usuario siguiente, creamos y registramos el nuevo Prestamo en su historial
         if (usuarioSiguiente != null) {
             // Usamos la fecha actual como fecha de préstamo automática
-            String fechaPrestamoHoy = java.time.LocalDate.now()
-                    .format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-            // Crear Prestamo para el usuario siguiente
-            // Atención: usamos el mismo constructor que usas en prestarLibroMenu:
-            // Prestamo(idUsuario, nombreUsuario, tituloLibro, fechaPrestamo, fechaDevolucion, estado)
+            String fechaPrestamoHoy = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             Prestamo nuevoPrestamo = new Prestamo(
                 usuarioSiguiente.getIdUsuario(),
                 usuarioSiguiente.getNombre(),

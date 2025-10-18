@@ -48,7 +48,7 @@ public class Prestamo {
         return estado;
     }
 
-    // Setters (solo si los necesitas para actualizar estado o fecha)
+    // Setters
     public void setFechaDevolucion(String fechaDevolucion) {
         this.fechaDevolucion = fechaDevolucion;
     }

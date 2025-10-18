@@ -101,7 +101,6 @@ public class Library {
         Book libro = buscarLibroPorISBN(isbn);
         if (libro != null) {
             libro.setDisponible(true);
-            //Si hay usuarios en cola, se mantiene la cola intacta; la lógica de reasignación se maneja en el main
             return true;
         }
         return false;

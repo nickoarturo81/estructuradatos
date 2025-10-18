@@ -4,13 +4,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Book {
+    
     //Atributos
     private String titulo;
     private String autor;
     private String isbn;
     private boolean disponible;
     private Queue<String> colaEspera;
-    //Al ser privados no se pueden acceder directamente desde fuera de la clase sino mediante getters y setters
 
     // Constructor
     public Book(String titulo, String autor, String isbn, boolean disponible) {

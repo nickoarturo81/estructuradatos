@@ -585,7 +585,7 @@ public class LibraryUI {
     }
 
     System.out.print("Ingrese el ISBN del libro a regresar: ");
-    String isbn = leer.nextLine().trim();
+    String isbn = leer.nextLine().trim(); // Eliminar espacios en blanco
 
     //Buscar el libro por ISBN en Library
     Book libroEncontrado = biblioteca.buscarLibroPorISBN(isbn);
@@ -601,20 +601,23 @@ public class LibraryUI {
     Prestamo prestamoEncontrado = null;
     User usuarioConPrestamo = null;
 
+    //Obetener una lista de todos los usuarios
     ArrayList<User> listaUsuarios = users.getTodosUsuarios();
+    //Recorrer todos los usuarios
     for (int i = 0; i < listaUsuarios.size(); i++) {
         User u = listaUsuarios.get(i);
+        //Obtener el historial de prestamos del usuario
         LinkedList<Prestamo> historial = u.getHistorialPrestamos();
         if (historial == null || historial.isEmpty()) continue;
-
+        //Recorrer el historial del usuario
         for (int j = 0; j < historial.size(); j++) {
             Prestamo p = historial.get(j);
-            // <-- Aquí asumimos que Prestamo tiene getIsbnLibro(); si no, reemplaza por el getter que corresponda
+            //Verificar si el préstamo coincide con el ISBN y está activo
             if (p.getIsbnLibro() != null &&
                 p.getIsbnLibro().equalsIgnoreCase(isbn) &&
                 p.getEstado() != null &&
                 p.getEstado().equalsIgnoreCase("Prestado")) {
-
+                //Préstamo encontrado
                 prestamoEncontrado = p;
                 usuarioConPrestamo = u;
                 break;
@@ -635,7 +638,7 @@ public class LibraryUI {
     System.out.println();
     System.out.print("Ingrese la fecha de devolución (formato DD/MM/AAAA): ");
     String fechaDevolucion = leer.nextLine().trim();
-
+    // Guardar la transacción en la pila antes de modificar el préstamo
     Transaction transaccion = new Transaction(Transaction.Tipo.REGRESAR_LIBRO, prestamoEncontrado);
     pilaTransacciones.push(transaccion);
 
@@ -651,16 +654,20 @@ public class LibraryUI {
     if (resultado == null) {
         // Por si alguna versión devuelve null inesperadamente
         System.out.println(" ❌ Ocurrió un error al procesar la devolución.");
-    } else if (resultado.equals("NO_ENCONTRADO")) {
+
+    } else if (resultado.equals("NO_ENCONTRADO")) { // Libro no existe
         System.out.println(" ❌ El libro no existe en la biblioteca.");
+
     } else if (resultado.equals("YA_DISPONIBLE")) {
         System.out.println(" ⚠️ El libro ya estaba disponible.");
+
     } else if (resultado.equals("DISPONIBLE")) {
         // Libro devuelto y sin cola de espera
         System.out.println(" ✅ Libro regresado correctamente");
         System.out.println(" ISBN: " + isbn);
         System.out.println(" Usuario que lo tenía: " + usuarioConPrestamo.getNombre() + " " + usuarioConPrestamo.getApellido());
         System.out.println(" Fecha de devolución: " + fechaDevolucion);
+        
     } else if (resultado.startsWith("ASIGNADO_A_")) {
         // Library indica que reasignó el libro al siguiente usuario en cola
         String idSiguiente = resultado.substring("ASIGNADO_A_".length());

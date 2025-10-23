@@ -39,7 +39,7 @@ public class Book {
         return disponible;
     }
 
-     public Queue<String> getColaEspera() {
+    public Queue<String> getColaEspera() {
         return colaEspera;
     }
 

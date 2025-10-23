@@ -511,7 +511,8 @@ public class LibraryUI {
 
         // Buscar el usuario
         User usuario = null;
-        for (User u : users.getTodosUsuarios()) {
+        for (int i = 0; i < users.getTodosUsuarios().size(); i++) {
+            User u = users.getTodosUsuarios().get(i);
             if (u.getIdUsuario().equals(idUsuario)) {
                 usuario = u;
                 break;

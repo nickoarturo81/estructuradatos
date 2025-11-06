@@ -1,12 +1,19 @@
 package Semana12;
 
 public class test {
-    private int contarPalabrasFrases(String cadena){
-        String texto = "Hola mundo esto es una prueba";
+    /*public int contarPalabrasFrases(String cadena){
         String[] palabras = cadena.split("\\s+");
         int contarPalabrasFrases = palabras.length;
-        System.out.println("Cantidad Número de palabras/frases: " + contarPalabrasFrases);
-        return contarPalabrasFrases;        
+        return contarPalabrasFrases; 
     }
+
+    public static void main(String[] args) {
+        test t = new test();
+        String texto = "Hola mundo esto es una prueba";
+        int numeroDePalabras = t.contarPalabrasFrases(texto);
+        System.out.println("Número de palabras: " + numeroDePalabras);
+    }
+    */
+
     
 }

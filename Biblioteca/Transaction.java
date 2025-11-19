@@ -10,8 +10,8 @@ public class Transaction {
         REGRESAR_LIBRO
     }
 
-    private Tipo tipo;
-    private Object data;
+    private Tipo tipo;      // Almacena la acción realizada
+    private Object data;    // Almacena el tipo de dato
 
     public Transaction(Tipo tipo, Object data) {
         this.tipo = tipo;

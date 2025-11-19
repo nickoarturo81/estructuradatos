@@ -27,56 +27,57 @@ public class Transaction {
     }
     public void undo(Library biblioteca, Users users) {
         switch (tipo) {
+            //Añade el libro eliminado anteriormente
             case AÑADIR_LIBRO:
                 
                 if (data instanceof Book) {
                     Book libro = (Book) data;
                     biblioteca.eliminarLibro(libro.getIsbn());
                 }
-                break;
-
+            break;
+            //Elimina el libro añadido anteriormente
             case ELIMINAR_LIBRO:
                 
                 if (data instanceof Book) {
                     Book libro = (Book) data;
                     biblioteca.anadirLibro(libro);
                 }
-                break;
-
+            break;
+            //Añade el usuario eliminado anteriormente
             case AÑADIR_USUARIO:
                 
                 if (data instanceof User) {
                     User usuario = (User) data;
                     users.eliminarUsuario(usuario.getIdUsuario());
                 }
-                break;
-
+            break;
+            //Elimina el usuario añadido anteriormente
             case ELIMINAR_USUARIO:
                 
                 if (data instanceof User) {
                     User usuario = (User) data;
                     users.anadirUsuario(usuario);
                 }
-                break;
-
+            break;
+            //Regresa el libro prestado anteriormente
             case PRESTAR_LIBRO:
                 
                 if (data instanceof Prestamo) {
                     Prestamo prestamo = (Prestamo) data;
                     biblioteca.regresarLibro(prestamo.getIsbnLibro());
                 }
-                break;
-
+            break;
+            //Presta el libro regresado anteriormente
             case REGRESAR_LIBRO:
                 
                 if (data instanceof Prestamo) {
                     Prestamo prestamo = (Prestamo) data;
                     biblioteca.prestarLibro(prestamo.getIsbnLibro(), prestamo.getNombreUsuario());
                 }
-                break;
+            break;
 
             default:
-                System.out.println("⚠️ Tipo de transacción desconocido.");
+                System.out.println("⚠️ Tipo de proceso desconocido.");
         }
     }
 }

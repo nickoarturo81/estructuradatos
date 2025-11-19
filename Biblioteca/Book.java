@@ -63,8 +63,7 @@ public class Book {
    @Override
     public String toString() {
         return String.format(
-            "Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s | En cola: %d]",
-            titulo, autor, isbn, disponible ? "Sí" : "No", colaEspera.size()
+            "Libro [Título: %s | Autor: %s | ISBN: %s | Disponible: %s | En cola: %d]", titulo, autor, isbn, disponible ? "Sí" : "No", colaEspera.size()
         );
     }
 }
